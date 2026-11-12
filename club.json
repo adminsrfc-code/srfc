@@ -1,0 +1,296 @@
+{
+  "id": 1523,
+  "name": "Southwell RFC",
+  "ref": 61627,
+  "labelName": "Southwell RFC",
+  "tradingAs": null,
+  "abbreviation": "SRFC7",
+  "type": {
+    "value": "ORGCLUB",
+    "listType": "OrganisationType",
+    "display": "Club"
+  },
+  "category": {
+    "value": "",
+    "listType": "OrganisationCategory",
+    "display": ""
+  },
+  "subCategory": {
+    "value": "",
+    "listType": "OrganisationSubCategory",
+    "display": ""
+  },
+  "status": {
+    "value": "ORGACTI",
+    "listType": "OrgStatus",
+    "display": "Active"
+  },
+  "defaultAddressType": {
+    "value": "VENUE",
+    "listType": "LocationType",
+    "display": "Venue Address"
+  },
+  "defaultAddress": "The Clubhouse\nSouthwell Rufc\nPark Lane\nSouthwell\nNott\nNG25 0QN\nUnited Kingdom",
+  "defaultUri": "https://www.facebook.com/Southwellrugby",
+  "league": "Counties 1 Midlands East (North) (level 7)",
+  "leagueLevel": 7,
+  "orgCode": null,
+  "orgRef": null,
+  "profileImageDate": "2022-01-28T12:38:00",
+  "merchantId": "14485",
+  "merchantUri": null,
+  "youthCommunicationPreference": "[object Object]",
+  "website": {
+    "0": "h",
+    "1": "t",
+    "2": "t",
+    "3": "p",
+    "4": "s",
+    "5": ":",
+    "6": "/",
+    "7": "/",
+    "8": "w",
+    "9": "w",
+    "10": "w",
+    "11": ".",
+    "12": "p",
+    "13": "i",
+    "14": "t",
+    "15": "c",
+    "16": "h",
+    "17": "e",
+    "18": "r",
+    "19": "o",
+    "20": ".",
+    "21": "c",
+    "22": "o",
+    "23": "m",
+    "24": "/",
+    "25": "c",
+    "26": "l",
+    "27": "u",
+    "28": "b",
+    "29": "s",
+    "30": "/",
+    "31": "s",
+    "32": "o",
+    "33": "u",
+    "34": "t",
+    "35": "h",
+    "36": "w",
+    "37": "e",
+    "38": "l",
+    "39": "l"
+  },
+  "overseas": false,
+  "excludeDirectM": true,
+  "excludePartnerM": false,
+  "leagueType": "LEAGO",
+  "agmDate": "2021-08-15T00:00:00.000Z",
+  "vatRegNo": null,
+  "reportingGroup": null,
+  "companyRegNo": null,
+  "establishedDate": "1922",
+  "ceasedDate": null,
+  "preferredCommunicationMethod": {
+    "value": "",
+    "listType": "PreferredComm",
+    "display": ""
+  },
+  "profileInfo": "Southwell Rugby Club ",
+  "originalSource": {
+    "value": "",
+    "listType": "SourcedFrom",
+    "display": ""
+  },
+  "yearEndDate": null,
+  "withdrawnReason": "[object Object]",
+  "region": {
+    "value": "",
+    "listType": "Region",
+    "display": ""
+  },
+  "votingQuota": null,
+  "territory": {
+    "value": "",
+    "listType": "Territory",
+    "display": ""
+  },
+  "locality": null,
+  "accountConfigured": true,
+  "acceptOnline": true,
+  "acceptOnlineDD": true,
+  "businessSector": {
+    "value": "",
+    "listType": "BusinessSector",
+    "display": ""
+  },
+  "leadSource": {
+    "value": "",
+    "listType": "LeadSource",
+    "display": ""
+  },
+  "subLeadSource": {
+    "value": "",
+    "listType": "SubLeadSource",
+    "display": ""
+  },
+  "economicSector": {
+    "value": "",
+    "listType": "EconomicSector",
+    "display": ""
+  },
+  "applyTransactionFee": false,
+  "acceptInvoice": true,
+  "taxExempt": false,
+  "defaultEmail": "enquiries@southwellrugby.co.uk",
+  "defaultEmailType": {
+    "value": "HOME",
+    "listType": "EmailType",
+    "display": "HOME"
+  },
+  "defaultPhone": "+44 1636 812576",
+  "defaultPhoneType": {
+    "value": "",
+    "listType": "PhoneTypes",
+    "display": ""
+  },
+  "invite": {
+    "value": "",
+    "listType": "Invite",
+    "display": ""
+  },
+  "nextInvite": {
+    "value": "",
+    "listType": "Invite",
+    "display": ""
+  },
+  "appointmentMode": "Unavailability",
+  "webTheme": null,
+  "idString": "894",
+  "dateCreated": "2004-11-12T11:56:00.000Z",
+  "dateUpdated": "2024-09-09T11:22:00.763",
+  "creator": "FCEC7214-18F3-481D-9C45-2454285171CD",
+  "updater": "MR  Daniel John Tovey (2504496)",
+  "defaultBuildingName": "The Clubhouse",
+  "defaultNumber": "",
+  "defaultAddress1": "Southwell RUFC",
+  "defaultAddress2": "Park Lane",
+  "defaultAddress3": "",
+  "defaultCity": "Southwell",
+  "defaultCounty": {
+    "value": "NOTT",
+    "listType": "LocationCounty",
+    "display": "NOTT"
+  },
+  "defaultPostalCode": "NG25 0QN",
+  "defaultCountry": {
+    "value": "UNITED KINGDOM",
+    "listType": "Country",
+    "display": "UNITED KINGDOM"
+  },
+  "defaultXCoordinate": "-0.958427",
+  "defaultYCoordinate": "53.069048",
+  "gmsPath": "Southwell",
+  "charityRegNo": null,
+  "establishedDateTime": null,
+  "membershipCeasedDate": null,
+  "membershipTransferTo": null,
+  "acceptOfflineDD": false,
+  "defaultEmailIsValid": false,
+  "facebookUrl": "https://www.facebook.com/Southwellrugby",
+  "twitterUrl": "https://twitter.com/southwellrugby?lang=en",
+  "instagramUrl": "https://www.instagram.com/Southwellrugby/",
+  "linkedInUrl": null,
+  "gmsId": 894,
+  "teamList": [
+    {
+      "teamId": 21557,
+      "seq": null,
+      "leagueLevel": null,
+      "name": "Southwell II",
+      "_id": 19819,
+      "featured": true
+    },
+    {
+      "teamId": 21558,
+      "seq": null,
+      "leagueLevel": null,
+      "name": "Southwell III",
+      "_id": 19820,
+      "featured": true
+    },
+    {
+      "teamId": 8914,
+      "seq": 1,
+      "leagueLevel": 8,
+      "name": "Southwell",
+      "_id": 19818,
+      "featured": true
+    },
+    {
+      "teamId": 473504,
+      "seq": 8,
+      "leagueLevel": null,
+      "name": "Southwell Women",
+      "_id": 129983,
+      "featured": true
+    },
+    {
+      "teamId": 464017,
+      "seq": 17,
+      "leagueLevel": 8,
+      "name": "Southwell Colts",
+      "_id": 19821,
+      "featured": true
+    },
+    {
+      "teamId": 473554,
+      "seq": 19,
+      "leagueLevel": null,
+      "name": "Southwell Colts Development ",
+      "_id": 130033,
+      "featured": true
+    },
+    {
+      "teamId": 21560,
+      "seq": 19,
+      "leagueLevel": 8,
+      "name": "Southwell U16",
+      "_id": 19832,
+      "featured": true
+    },
+    {
+      "teamId": 21561,
+      "seq": 20,
+      "leagueLevel": 8,
+      "name": "Southwell U15",
+      "_id": 19831,
+      "featured": true
+    },
+    {
+      "teamId": 21562,
+      "seq": 21,
+      "leagueLevel": 8,
+      "name": "Southwell U14",
+      "_id": 19830,
+      "featured": true
+    },
+    {
+      "teamId": 473784,
+      "seq": 31,
+      "leagueLevel": null,
+      "name": "Southwell RFC U14W",
+      "_id": 130265,
+      "featured": true
+    },
+    {
+      "teamId": 21563,
+      "seq": 32,
+      "leagueLevel": 8,
+      "name": "Southwell U13",
+      "_id": 19829,
+      "featured": true
+    }
+  ]
+}

@@ -1,9 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  images: {
+    remotePatterns: [
+      { hostname: "img-res.pitchero.com" },
+      { hostname: "images.pitchero.com" },
+    ],
+  },
 };
 
 export default nextConfig;

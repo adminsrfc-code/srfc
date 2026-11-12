@@ -1,0 +1,6 @@
+--2026-11-06 15:34:48--  https://cluster.england-rfu.com/fixtures-and-results/full-matches?seasonId=1754367
+Resolving cluster.england-rfu.com (cluster.england-rfu.com)... 35.179.236.149, 13.134.251.84
+Connecting to cluster.england-rfu.com (cluster.england-rfu.com)|35.179.236.149|:443... connected.
+HTTP request sent, awaiting response... 400 Bad Request
+2026-11-06 15:34:48 ERROR 400: Bad Request.
+
