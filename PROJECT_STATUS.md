@@ -79,28 +79,12 @@ the URL\
 **How to get GIDs:** Click each tab → look at `#gid=XXXXXXXX` in the URL\
 **Vercel:** Add these in Project Settings → Environment Variables
 
-### Outstatic CMS (`/outstatic`) — Not yet set up
-
-Outstatic (`outstatic@^2.2.4`) is installed but needs:
-
-1. GitHub OAuth app credentials (`OUTSTATIC_SECRET`, `GITHUB_ID`,
-   `GITHUB_SECRET`)
-2. A `content/` directory structure for MDX articles
-3. The `/outstatic` admin route — verify outstatic auto-registers it or needs a
-   catch-all
-
 ### ~~Club Logo~~ ✅ DONE 2026-11-06
 
 - Badge generated and saved to `public/badge.jpg`
 - `Nav.tsx` and `Footer.tsx` updated to use `next/image` with the badge
 - If the club provides an official SVG logo later, drop it in as
   `public/badge.svg` and update the `src` prop
-
-### Hero Background Image
-
-- `HeroSection.tsx` uses a CSS gradient background
-- Club may want a real action photo — add to `public/hero.jpg` and use
-  `<Image priority fill>`
 
 ### ~~Google Maps Embed (Contacts page)~~ ✅ DONE 2026-11-06
 
@@ -119,26 +103,17 @@ I noticed the `${RFU_BASE}/find-rugby/search?code=NG250QN` API call was using
 "postCode" which is wrong it should be code So commented it out and hardcoded it
 as https://cluster.england-rfu.com/clubs/1523 is southwells api and the clubs id
 is 1523 can you clean this up a little - use constants for the club id. But also
-will this approach work? Is the id static? If this fails, can we scrape?
+will this approach work? Is the id static? If this fails, can we scrape from
+https://www.englandrugby.com/fixtures-and-results or link?
 
 ### Missing links
 
-https://www.gilbertrugby.com/collections/southwell-rfc Social links Membership
-subs
+- https://www.gilbertrugby.com/collections/southwell-rfc
+- Membership subs
 
 ### Find Your Team
 
 These date and times are wrong can they be configured from the google sheets?
-
-### Hero Links
-
-"Find Your Team" links goes to contacts instead of scrolling down to "Find Your
-Team". Also the buttons on the right should go to the approprate place.
-
-### Admin Help Page
-
-Can you give me an example of a googlesheet. Also need a seperate secret admin
-page for how to use google sheets and general instructions.
 
 ### Banner for news
 
@@ -147,13 +122,20 @@ lot more buzz on the orginal site: https://www.southwellrfc.com/ We need to put
 up pictures for a time span - IE bombfire night picture until 6th of November.
 The site should be dynamic, acurate and up to date.
 
+### Admin Help Page
+
+Can you give me an example of a googlesheet. Also need a seperate secret admin
+page for how to use google sheets and general instructions. This could just be a
+static md page with pictures that should not be deployed and could be a part of
+the READ.md
+
 ---
 
 ## 📋 Phase 2 (Future Work)
 
 Per `spec.md`, Phase 2 items not started:
 
-- **News/blog** — MDX posts via Outstatic, route `/news`
+- **News/blog** — route `/news`
 - **Player profiles** — deferred
 - **Online membership / joining form** — deferred
 
@@ -168,7 +150,6 @@ Per `spec.md`, Phase 2 items not started:
 | Fonts      | Barlow Condensed (headings) + Plus Jakarta Sans (body) via Google Fonts                     |
 | Colours    | Maroon `#800000`, Gold `#C5A059`, Cream `#FBF9F5`, Slate `#1E2229` — all as `@theme` tokens |
 | Data       | Google Sheets CSV (no-auth, publicly published) + RFU cluster API                           |
-| CMS        | Outstatic (installed, not configured)                                                       |
 | Deployment | Vercel                                                                                      |
 | ISR        | 5 min (`revalidate = 300`) on all pages; 1h on `/api/fixtures`                              |
 | RFU season | 2025–2026, ID `1754367` (auto-detected from API)                                            |
