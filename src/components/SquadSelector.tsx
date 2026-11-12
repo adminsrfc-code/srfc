@@ -62,7 +62,7 @@ const squads = [
       {
         name: "Touch Rugby",
         day: "Summertime",
-        time: "09:30 PM",
+        time: "07:30 PM",
         format: "Non-contact",
       },
     ],
