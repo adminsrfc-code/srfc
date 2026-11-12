@@ -9,10 +9,10 @@ interface HeroSectionProps {
 export function HeroSection({ nextFixture }: HeroSectionProps) {
   const fixtureDate = nextFixture
     ? new Date(nextFixture.date).toLocaleDateString("en-GB", {
-        weekday: "short",
-        day: "numeric",
-        month: "short",
-      })
+      weekday: "short",
+      day: "numeric",
+      month: "short",
+    })
     : null;
 
   return (
@@ -20,7 +20,7 @@ export function HeroSection({ nextFixture }: HeroSectionProps) {
       {/* Hero photo background */}
       <div className="absolute inset-0" aria-hidden="true">
         <Image
-          src="/hero.jpg"
+          src="/BanditsRun.png"
           alt="Southwell RFC match action"
           fill
           priority
@@ -80,7 +80,7 @@ export function HeroSection({ nextFixture }: HeroSectionProps) {
 
             <div className="flex flex-wrap gap-4">
               <Link
-                href="/contacts"
+                href="#FindYourTeam"
                 className="inline-flex items-center gap-2 bg-white text-maroon-deep hover:bg-cream font-body font-bold px-8 py-4 rounded-xl text-base transition-all duration-200 hover:shadow-xl hover:shadow-white/20 hover:-translate-y-0.5"
               >
                 🏉 Find Your Team

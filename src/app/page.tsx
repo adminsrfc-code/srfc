@@ -89,7 +89,7 @@ export default async function HomePage() {
       </section>
 
       {/* Find Your Team */}
-      <section className="bg-cream py-14 lg:py-20 border-t border-border">
+      <section id="FindYourTeam" className="bg-cream py-14 lg:py-20 border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="font-display font-bold text-3xl lg:text-4xl text-slate mb-3">

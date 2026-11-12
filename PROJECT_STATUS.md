@@ -119,30 +119,33 @@ I noticed the `${RFU_BASE}/find-rugby/search?code=NG250QN` API call was using
 "postCode" which is wrong it should be code So commented it out and hardcoded it
 as https://cluster.england-rfu.com/clubs/1523 is southwells api and the clubs id
 is 1523 can you clean this up a little - use constants for the club id. But also
-will this approach work? Is the id static?
+will this approach work? Is the id static? If this fails, can we scrape?
 
-### Real background picture
+### Missing links
 
-Can you use a real southwell rubgy picture for the background picture? Please
-search the web and socials
+https://www.gilbertrugby.com/collections/southwell-rfc Social links Membership
+subs
+
+### Find Your Team
+
+These date and times are wrong can they be configured from the google sheets?
 
 ### Hero Links
 
 "Find Your Team" links goes to contacts instead of scrolling down to "Find Your
 Team". Also the buttons on the right should go to the approprate place.
 
-### Real background picture
-
-Can we add a "summer touch rugby" in Find your Team.
-
 ### Admin Help Page
 
-Also need a seperate secret admin page for how to use google sheets and general
-instructions.
+Can you give me an example of a googlesheet. Also need a seperate secret admin
+page for how to use google sheets and general instructions.
 
 ### Banner for news
 
-Also be nice to have a banner for annoncement for a period of time
+Also be nice to have a banner for annoncement for a period of time - There is a
+lot more buzz on the orginal site: https://www.southwellrfc.com/ We need to put
+up pictures for a time span - IE bombfire night picture until 6th of November.
+The site should be dynamic, acurate and up to date.
 
 ---
 

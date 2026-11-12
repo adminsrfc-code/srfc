@@ -57,13 +57,13 @@ const squads = [
   {
     category: "Social & Veterans",
     emoji: "🍺",
-    description: "Walking rugby, veterans rugby, and the legendary Bandits 3rd XV.",
+    description: "Touch rugby, veterans rugby, and the legendary Bandits 3rd XV.",
     teams: [
       {
-        name: "Walking Rugby",
-        day: "Wednesday",
-        time: "10:30 AM",
-        format: "Non-contact, open to all",
+        name: "Touch Rugby",
+        day: "Summertime",
+        time: "09:30 PM",
+        format: "Non-contact",
       },
     ],
   },
@@ -82,11 +82,10 @@ export function SquadSelector() {
           <button
             key={squad.category}
             onClick={() => setActiveCategory(squad.category)}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-body font-semibold text-sm transition-all duration-200 ${
-              activeCategory === squad.category
-                ? "bg-maroon text-white shadow-lg shadow-maroon/30"
-                : "bg-white text-slate border border-border hover:border-maroon/30 hover:text-maroon"
-            }`}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-body font-semibold text-sm transition-all duration-200 ${activeCategory === squad.category
+              ? "bg-maroon text-white shadow-lg shadow-maroon/30"
+              : "bg-white text-slate border border-border hover:border-maroon/30 hover:text-maroon"
+              }`}
           >
             <span>{squad.emoji}</span>
             {squad.category}
