@@ -120,22 +120,22 @@ export function EventsClient({ fixtures, socialEvents }: EventsClientProps) {
             ))}
           </div>
 
-          {fixtures.length > 0 && (
-            <div className="mt-6 p-4 bg-cream border border-border rounded-xl flex items-center justify-between gap-3">
-              <div>
-                <p className="font-body text-sm font-semibold text-slate">Subscribe to calendar</p>
-                <p className="font-body text-xs text-muted">Get all fixtures automatically in your calendar app</p>
-              </div>
-              <a
-                href="https://www.englandrugby.com/fixtures-results"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-shrink-0 bg-maroon text-white font-body font-semibold text-sm px-4 py-2 rounded-lg hover:bg-maroon-deep transition-colors"
-              >
-                📅 England Rugby
-              </a>
+          {/* {fixtures.length > 0 && ( */}
+          <div className="mt-6 p-4 bg-cream border border-border rounded-xl flex items-center justify-between gap-3">
+            <div>
+              <p className="font-body text-sm font-semibold text-slate">Subscribe to calendar</p>
+              <p className="font-body text-xs text-muted">Get all fixtures automatically in your calendar app</p>
             </div>
-          )}
+            <a
+              href="https://www.englandrugby.com/fixtures-and-results"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-shrink-0 bg-maroon text-white font-body font-semibold text-sm px-4 py-2 rounded-lg hover:bg-maroon-deep transition-colors"
+            >
+              📅 England Rugby
+            </a>
+          </div>
+          {/* )} */}
         </div>
 
         {/* Club events sidebar from Google Sheets */}

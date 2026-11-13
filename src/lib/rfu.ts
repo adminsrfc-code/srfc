@@ -21,6 +21,8 @@
 //   - As a last resort, fixtures can be linked from:
 //     https://www.englandrugby.com/fixtures-and-results (manual link only).
 
+//import { scrapeEnglandRugbyTeamPage } from "@/lib/scrapeRfu"
+
 const RFU_BASE = "https://cluster.england-rfu.com";
 const CURRENT_SEASON_ID = 1754367; // 2025–2026; auto-detected at runtime
 const SOUTHWELL_CLUB_ID = 1523;    // Permanent RFU club ID — do not change
@@ -86,6 +88,7 @@ export async function getSouthwellFixtures(): Promise<Fixture[]> {
     if (!res.ok) {
       // 500 here means the upstream service is failing — nothing to parse.
       console.warn(`[rfu] fixtures request failed: ${res.status} ${res.statusText}`);
+      //return await scrapeEnglandRugbyTeamPage("19820");
       return [];
     }
 

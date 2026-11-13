@@ -103,20 +103,21 @@ export function SquadSelector({ sheetTeams = [] }: SquadSelectorProps) {
   const squads =
     sheetTeams.length > 0
       ? (() => {
-          // Group sheet rows by category, preserving insertion order
-          const grouped = new Map<string, SheetTeam[]>();
-          for (const t of sheetTeams) {
-            const existing = grouped.get(t.category) ?? [];
-            existing.push(t);
-            grouped.set(t.category, existing);
-          }
-          return Array.from(grouped.entries()).map(([category, teams]) => ({
-            category,
-            emoji: CATEGORY_META[category]?.emoji ?? "🏉",
-            description: CATEGORY_META[category]?.description ?? "",
-            teams: teams.map((t) => ({ name: t.name, day: t.day, time: t.time, format: t.format })),
-          }));
-        })()
+        // Group sheet rows by category, preserving insertion order
+        const grouped = new Map<string, SheetTeam[]>();
+        for (const t of sheetTeams) {
+          const cat = t.category.trim();
+          const existing = grouped.get(cat) ?? [];
+          existing.push(t);
+          grouped.set(t.category, existing);
+        }
+        return Array.from(grouped.entries()).map(([category, teams]) => ({
+          category,
+          emoji: CATEGORY_META[category]?.emoji ?? "🏉",
+          description: CATEGORY_META[category]?.description ?? "",
+          teams: teams.map((t) => ({ name: t.name, day: t.day, time: t.time, format: t.format })),
+        }));
+      })()
       : FALLBACK_SQUADS;
 
   const [activeCategory, setActiveCategory] = useState(squads[0]?.category ?? "");
@@ -151,8 +152,8 @@ export function SquadSelector({ sheetTeams = [] }: SquadSelectorProps) {
         </div>
 
         <div className="divide-y divide-border">
-          {active.teams.map((team) => (
-            <div key={team.name} className="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          {active.teams.map((team, idx) => (
+            <div key={`${active.category}-${team.name}-${idx}`} className="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <span className="font-display font-bold text-lg text-slate block">{team.name}</span>
                 <span className="font-body text-muted text-sm">{team.format}</span>
