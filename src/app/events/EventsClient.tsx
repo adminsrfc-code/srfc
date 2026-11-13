@@ -25,6 +25,20 @@ export function EventsClient({ fixtures, socialEvents }: EventsClientProps) {
   const noFixtures = filtered.length === 0;
   const noUpcoming = fixtures.filter((f) => f.status === "upcoming").length === 0;
 
+  const rfuURL = "https://www.englandrugby.com/fixtures-and-results/search-results?team=";
+  const southwellTeams = [
+    { name: "Southwell", team: 19818 },
+    { name: "Southwell Women", team: 129983 },
+    { name: "Southwell Colts", team: 19821 },
+    { name: "Southwell U16", team: 19832 },
+    { name: "Southwell Colts Development", team: 130033 },
+    { name: "Southwell U15", team: 19831 },
+    { name: "Southwell U14", team: 19830 },
+    { name: "Southwell II", team: 19819 },
+    { name: "Southwell III", team: 19820 }];
+
+
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
       {/* Controls */}
@@ -35,8 +49,8 @@ export function EventsClient({ fixtures, socialEvents }: EventsClientProps) {
               key={f}
               onClick={() => setFilter(f)}
               className={`px-5 py-2 rounded-xl font-body font-semibold text-sm transition-all capitalize ${filter === f
-                  ? "bg-maroon text-white shadow-md shadow-maroon/30"
-                  : "bg-white text-slate border border-border hover:border-maroon/30"
+                ? "bg-maroon text-white shadow-md shadow-maroon/30"
+                : "bg-white text-slate border border-border hover:border-maroon/30"
                 }`}
             >
               {f === "all" ? "All Fixtures" : f === "upcoming" ? "Upcoming" : "Results"}
@@ -73,6 +87,18 @@ export function EventsClient({ fixtures, socialEvents }: EventsClientProps) {
                     Fixtures are pulled automatically from England Rugby. If none appear, they may
                     not yet be scheduled for this season — or add them to the club spreadsheet.
                   </p>
+                  <div className="grid grid-cols-3">
+                    {southwellTeams.map((team) => (
+                      <a
+                        href={rfuURL + team.team}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block mt-4 text-maroon font-body font-semibold text-sm hover:underline"
+                      >
+                        📅 {team.name}
+                      </a>
+                    ))}
+                  </div>
                   <a
                     href="https://www.englandrugby.com/fixtures-and-results"
                     target="_blank"
