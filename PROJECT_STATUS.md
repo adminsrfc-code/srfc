@@ -1,7 +1,7 @@
 # Southwell RFC — Project Status
 
 > This file is the persistent "where were we?" tracker. Update it at the end of
-> every work session. Last updated: 2026-11-06 (session 2)
+> every work session. Last updated: 2026-11-13 (session 3)
 
 ---
 
@@ -34,22 +34,34 @@ errors).
 
 ### Components — all in `src/components/`
 
-- `Nav.tsx` — fixed top nav, scroll-aware bg, mobile hamburger menu
-- `Footer.tsx` — club identity, quick links, social icons, address
+- `Nav.tsx` — fixed top nav, scroll-aware bg, mobile hamburger menu, **Kit Shop link (Gilbert)**
+- `Footer.tsx` — club identity, quick links (**Kit Shop + Membership links added**), social icons, address
 - `HeroSection.tsx` — full-screen maroon hero with next fixture card
-- `FixtureCard.tsx` — dark/light variant, shows result score or vs, Google
-  Calendar link
-- `SquadSelector.tsx` — tabbed squad/training time browser (client component)
-- `PitchStatusBanner.tsx` — top-of-page pitch status (OPEN / INSPECTION /
-  CLOSED)
+- `FixtureCard.tsx` — dark/light variant, shows result score or vs, Google Calendar link
+- `SquadSelector.tsx` — tabbed squad/training time browser; **accepts `sheetTeams` prop** for sheet-driven times with hard-coded fallback
+- `PitchStatusBanner.tsx` — top-of-page pitch status (OPEN / INSPECTION / CLOSED)
+- `HeroBanner.tsx` — **NEW** time-bounded promotional image (replaces stats grid in Club Intro when configured)
 
 ### Data Layer — all in `src/lib/`
 
-- `sheets.ts` — Google Sheets CSV reader (events, contacts, sponsors, settings
-  tabs)
-- `rfu.ts` — RFU cluster API (`cluster.england-rfu.com`) fixture fetcher, season
-  auto-detect
+- `sheets.ts` — Google Sheets CSV reader; **added `SheetTeam` + `getSheetTeams()`**; **documented banner settings keys**; `SHEET_GID_TEAMS` env var (optional)
+- `rfu.ts` — RFU cluster API fixture fetcher; **added comprehensive comment block** explaining club ID 1523 stability and fallback strategy
 - `contacts.ts` — wraps sheets contacts and groups by category
+
+### Session 3 work completed (2026-11-13)
+
+| Item | Status |
+|------|--------|
+| `rfu.ts` — club ID comment + stability docs | ✅ Done |
+| Nav: Gilbert kit shop link | ✅ Done |
+| Footer: Kit shop + membership links | ✅ Done |
+| `sheets.ts`: SheetTeam type + getSheetTeams() | ✅ Done |
+| `sheets.ts`: Banner settings documented | ✅ Done |
+| `SquadSelector.tsx`: Sheet-driven training times | ✅ Done |
+| `HeroBanner.tsx`: Time-bounded promotional image | ✅ Done |
+| `page.tsx`: Wired up teams + banner | ✅ Done |
+| `README.md`: Full admin guide for volunteers | ✅ Done |
+| `.env.local.example`: Added SHEET_GID_TEAMS | ✅ Done |
 
 ### Bug Fixes Applied
 
@@ -72,62 +84,42 @@ SHEET_GID_EVENTS=0       # adjust to actual tab GIDs
 SHEET_GID_CONTACTS=1
 SHEET_GID_SPONSORS=2
 SHEET_GID_SETTINGS=3
+SHEET_GID_TEAMS=         # optional — leave blank for built-in defaults
 ```
 
 **How to get the Sheet ID:** Open the club Google Sheet → copy the long ID from
 the URL\
 **How to get GIDs:** Click each tab → look at `#gid=XXXXXXXX` in the URL\
-**Vercel:** Add these in Project Settings → Environment Variables
+**Vercel:** Add these in Project Settings → Environment Variables\
+**Full guide:** See `README.md` → "Admin Guide"
 
-### ~~Club Logo~~ ✅ DONE 2026-11-06
+### Teams Tab (once you have the Sheet set up)
 
-- Badge generated and saved to `public/badge.jpg`
-- `Nav.tsx` and `Footer.tsx` updated to use `next/image` with the badge
-- If the club provides an official SVG logo later, drop it in as
-  `public/badge.svg` and update the `src` prop
+Add a `teams` tab to the Google Sheet with columns:
+`category | name | day | time | format`
 
-### ~~Google Maps Embed (Contacts page)~~ ✅ DONE 2026-11-06
+Set `SHEET_GID_TEAMS=<gid>` in env vars. Training times on "Find Your Team"
+will then be managed from the sheet. Until then, the hard-coded defaults
+in `SquadSelector.tsx` are used.
 
-- Real coordinates `53.069039, -0.958455` confirmed via doogal.co.uk
-- Both the iframe embed and the "Get Directions" link updated in
-  `contacts/page.tsx`
+### Promotional Banners
 
-### SEO / OG Image
+To put up a time-bounded banner (e.g. bonfire night photo):
+1. Upload the image to Google Drive → Share (Anyone with link)
+2. Transform the URL: `https://drive.google.com/uc?id=FILE_ID`
+3. In Settings tab, add rows:
+   - `banner_image_url` = the transformed URL
+   - `banner_expires` = `YYYY-MM-DD` (e.g. `2026-11-06`)
+4. Site updates within 5 minutes automatically
 
-- `layout.tsx` has `metadataBase` set but no OG image configured
-- Add `src/app/opengraph-image.png` (1200×630) for social sharing previews
+The banner appears in the right column of the Club Intro section, replacing
+the stats grid. After the expiry date it reverts to the stats grid automatically.
 
-### rfu.ts API incorrect
+### Membership Subs
 
-I noticed the `${RFU_BASE}/find-rugby/search?code=NG250QN` API call was using
-"postCode" which is wrong it should be code So commented it out and hardcoded it
-as https://cluster.england-rfu.com/clubs/1523 is southwells api and the clubs id
-is 1523 can you clean this up a little - use constants for the club id. But also
-will this approach work? Is the id static? If this fails, can we scrape from
-https://www.englandrugby.com/fixtures-and-results or link?
-
-### Missing links
-
-- https://www.gilbertrugby.com/collections/southwell-rfc
-- Membership subs
-
-### Find Your Team
-
-These date and times are wrong can they be configured from the google sheets?
-
-### Banner for news
-
-Also be nice to have a banner for annoncement for a period of time - There is a
-lot more buzz on the orginal site: https://www.southwellrfc.com/ We need to put
-up pictures for a time span - IE bombfire night picture until 6th of November.
-The site should be dynamic, acurate and up to date.
-
-### Admin Help Page
-
-Can you give me an example of a googlesheet. Also need a seperate secret admin
-page for how to use google sheets and general instructions. This could just be a
-static md page with pictures that should not be deployed and could be a part of
-the READ.md
+The "Join / Membership Subs" link in the footer currently points to `/contacts`.
+If the club has an online membership system (e.g. RFU GMS, Club 100), update
+the href in `Footer.tsx` and `Nav.tsx` → `externalLinks`.
 
 ---
 
@@ -153,6 +145,7 @@ Per `spec.md`, Phase 2 items not started:
 | Deployment | Vercel                                                                                      |
 | ISR        | 5 min (`revalidate = 300`) on all pages; 1h on `/api/fixtures`                              |
 | RFU season | 2025–2026, ID `1754367` (auto-detected from API)                                            |
+| Club ID    | `1523` — permanent RFU internal club ID, not season-dependent                               |
 | Club facts | Park Lane, Southwell, NG25 0QN · 01636 812576 · Founded 1922                                |
 
 ---

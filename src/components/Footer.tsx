@@ -37,7 +37,12 @@ const socialLinks = [
   },
 ];
 
-export function Footer() {
+type FooterProps = {
+  /** Membership sign-up URL — passed from layout (sourced from Google Sheets settings). */
+  membershipUrl: string;
+};
+
+export function Footer({ membershipUrl }: FooterProps) {
   return (
     <footer className="bg-maroon-deep text-white">
       {/* Main footer */}
@@ -106,6 +111,26 @@ export function Footer() {
                   className="text-white/60 hover:text-white font-body text-sm transition-colors duration-200"
                 >
                   RFU Member Login ↗
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.gilbertrugby.com/collections/southwell-rfc"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gold/60 hover:text-gold font-body text-sm transition-colors duration-200"
+                >
+                  🛍 Club Kit Shop ↗
+                </a>
+              </li>
+              <li>
+                <a
+                  href={membershipUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gold/60 hover:text-gold font-body text-sm transition-colors duration-200"
+                >
+                  🏉 Join / Membership Subs
                 </a>
               </li>
             </ul>

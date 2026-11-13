@@ -44,15 +44,18 @@ export default async function RootLayout({
   const settings = await getSheetSettings();
   const pitchStatus = settings["pitch_status"] ?? "OPEN";
   const pitchMessage = settings["pitch_message"] ?? "";
+  const membershipUrl =
+    settings["membership_url"] ??
+    "https://www.southwellrfc.com/a/membership-subscriptions-information-inc-online-registration-61282.html?page=2";
 
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col bg-cream">
         {/* Pitch status bar — top of every page, updated from Google Sheets */}
         <PitchStatusBanner status={pitchStatus} message={pitchMessage} />
-        <Nav />
+        <Nav membershipUrl={membershipUrl} />
         <main className="flex-1">{children}</main>
-        <Footer />
+        <Footer membershipUrl={membershipUrl} />
       </body>
     </html>
   );

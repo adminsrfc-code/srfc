@@ -1,8 +1,29 @@
 // src/lib/rfu.ts
+//
+// RFU Cluster API — Southwell RFC fixture fetcher
+// ─────────────────────────────────────────────────
+// Base URL: https://cluster.england-rfu.com  (powers englandrugby.com)
+//
+// SOUTHWELL_CLUB_ID = 1523
+//   This is the RFU's permanent, internal club identifier — it does NOT
+//   change between seasons. You can verify it by visiting:
+//   https://www.englandrugby.com/clubs/southwell-rfc-1523
+//   or by inspecting the network tab on that page.
+//
+// CURRENT_SEASON_ID = 1754367  (2025–2026 season)
+//   Used as a hard-coded fallback; getCurrentSeasonId() auto-detects the
+//   live value from the /seasons endpoint and refreshes daily (86400s ISR).
+//
+// If the API stops responding:
+//   - getSouthwellFixtures() returns [] gracefully (no unhandled errors).
+//   - The Upcoming Fixtures section and Hero "next fixture" card are simply
+//     hidden from the page — no error boundary needed.
+//   - As a last resort, fixtures can be linked from:
+//     https://www.englandrugby.com/fixtures-and-results (manual link only).
 
 const RFU_BASE = "https://cluster.england-rfu.com";
-const CURRENT_SEASON_ID = 1754367;
-const SOUTHWELL_CLUB_ID = 1523;
+const CURRENT_SEASON_ID = 1754367; // 2025–2026; auto-detected at runtime
+const SOUTHWELL_CLUB_ID = 1523;    // Permanent RFU club ID — do not change
 
 export interface RFUMatch {
   id: string;

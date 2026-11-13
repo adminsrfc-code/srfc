@@ -1,18 +1,21 @@
 import Link from "next/link";
 import { getSouthwellFixtures } from "@/lib/rfu";
-import { getSheetEvents, getSheetSponsors } from "@/lib/sheets";
+import { getSheetEvents, getSheetSponsors, getSheetSettings, getSheetTeams } from "@/lib/sheets";
 import { FixtureCard } from "@/components/FixtureCard";
 import { HeroSection } from "@/components/HeroSection";
 import { SquadSelector } from "@/components/SquadSelector";
+import { HeroBanner } from "@/components/HeroBanner";
 
 export const revalidate = 300; // 5 minutes — synced with Google Sheets cache
 
 export default async function HomePage() {
-  // Fetch in parallel — RFU fixtures + Sheet social events + Sheet sponsors
-  const [rfuFixtures, sheetEvents, sponsors] = await Promise.all([
+  // Fetch in parallel — RFU fixtures + Sheet data
+  const [rfuFixtures, sheetEvents, sponsors, settings, sheetTeams] = await Promise.all([
     getSouthwellFixtures(),
     getSheetEvents(),
     getSheetSponsors(),
+    getSheetSettings(),
+    getSheetTeams(),
   ]);
 
   const nextFixture = rfuFixtures.find((f) => f.status === "upcoming") ?? null;
@@ -21,6 +24,13 @@ export default async function HomePage() {
   const socialEvents = sheetEvents
     .filter((e) => ["social", "other"].includes(e.type) && e.cancelled?.toUpperCase() !== "TRUE")
     .slice(0, 3);
+
+  // Time-bounded banner from Settings sheet
+  const bannerImageUrl = settings["banner_image_url"] ?? "";
+  const bannerExpires = settings["banner_expires"] ?? "";
+  const isBannerActive =
+    bannerImageUrl !== "" &&
+    (bannerExpires === "" || Date.now() <= new Date(`${bannerExpires}T23:59:59Z`).getTime());
 
   return (
     <>
@@ -66,24 +76,32 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { num: "1922", label: "Year Founded", sub: "Over 100 years of rugby" },
-                { num: "11+", label: "Teams", sub: "From U6 to Senior Men" },
-                { num: "Minis", label: "to Masters", sub: "Welcoming all abilities" },
-                { num: "NG25", label: "0QN", sub: "Park Lane, Southwell" },
-              ].map((stat) => (
-                <div
-                  key={stat.num}
-                  className="bg-cream border border-border rounded-2xl p-6 text-center hover:border-maroon/30 hover:shadow-md transition-all duration-200"
-                >
-                  <span className="font-display font-bold text-3xl lg:text-4xl text-maroon block">{stat.num}</span>
-                  <span className="font-display font-bold text-sm text-slate block mt-1">{stat.label}</span>
-                  <span className="font-body text-xs text-muted block mt-1">{stat.sub}</span>
-                </div>
-              ))}
-            </div>
+            {/* Right column: Banner image if active, otherwise stats grid */}
+            {isBannerActive ? (
+              <HeroBanner
+                imageUrl={bannerImageUrl}
+                expires={bannerExpires}
+                alt="Club announcement"
+              />
+            ) : (
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { num: "1922", label: "Year Founded", sub: "Over 100 years of rugby" },
+                  { num: "11+", label: "Teams", sub: "From U6 to Senior Men" },
+                  { num: "Minis", label: "to Masters", sub: "Welcoming all abilities" },
+                  { num: "NG25", label: "0QN", sub: "Park Lane, Southwell" },
+                ].map((stat) => (
+                  <div
+                    key={stat.num}
+                    className="bg-cream border border-border rounded-2xl p-6 text-center hover:border-maroon/30 hover:shadow-md transition-all duration-200"
+                  >
+                    <span className="font-display font-bold text-3xl lg:text-4xl text-maroon block">{stat.num}</span>
+                    <span className="font-display font-bold text-sm text-slate block mt-1">{stat.label}</span>
+                    <span className="font-body text-xs text-muted block mt-1">{stat.sub}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -99,7 +117,8 @@ export default async function HomePage() {
               We have a squad for everyone. Select your category to find training times and how to get started.
             </p>
           </div>
-          <SquadSelector />
+          {/* sheetTeams is [] when not configured — SquadSelector uses built-in fallback */}
+          <SquadSelector sheetTeams={sheetTeams} />
         </div>
       </section>
 
@@ -176,7 +195,7 @@ export default async function HomePage() {
         <section className="bg-cream border-t border-border py-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <p className="text-center font-body text-muted text-xs font-semibold tracking-widest uppercase mb-6">
-              Our Club Partners & Sponsors
+              Our Club Partners &amp; Sponsors
             </p>
             <div className="flex flex-wrap items-center justify-center gap-8 lg:gap-14">
               {sponsors.map((sponsor) =>

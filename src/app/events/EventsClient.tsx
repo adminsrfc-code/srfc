@@ -34,11 +34,10 @@ export function EventsClient({ fixtures, socialEvents }: EventsClientProps) {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-5 py-2 rounded-xl font-body font-semibold text-sm transition-all capitalize ${
-                filter === f
+              className={`px-5 py-2 rounded-xl font-body font-semibold text-sm transition-all capitalize ${filter === f
                   ? "bg-maroon text-white shadow-md shadow-maroon/30"
                   : "bg-white text-slate border border-border hover:border-maroon/30"
-              }`}
+                }`}
             >
               {f === "all" ? "All Fixtures" : f === "upcoming" ? "Upcoming" : "Results"}
             </button>
@@ -75,7 +74,7 @@ export function EventsClient({ fixtures, socialEvents }: EventsClientProps) {
                     not yet be scheduled for this season — or add them to the club spreadsheet.
                   </p>
                   <a
-                    href="https://www.englandrugby.com/fixtures-results"
+                    href="https://www.englandrugby.com/fixtures-and-results"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block mt-4 text-maroon font-body font-semibold text-sm hover:underline"

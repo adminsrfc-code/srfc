@@ -30,6 +30,7 @@ const TABS = {
   contacts: process.env.SHEET_GID_CONTACTS ?? "1",
   sponsors: process.env.SHEET_GID_SPONSORS ?? "2",
   settings: process.env.SHEET_GID_SETTINGS ?? "3",
+  teams: process.env.SHEET_GID_TEAMS ?? "",   // optional — leave blank to use hard-coded fallback
 } as const;
 
 // Cache duration in seconds (Next.js ISR)
@@ -115,11 +116,31 @@ export interface SheetSponsor {
 /**
  * Settings tab columns:
  * key | value
- * 
+ *
  * Supported keys:
- *   pitch_status  → OPEN | INSPECTION | CLOSED
- *   pitch_message → e.g. "Main pitch waterlogged — Sunday sessions on Pitch 2"
- *   clubhouse_note → e.g. "Bar open from 2pm Saturday"
+ *   pitch_status    → OPEN | INSPECTION | CLOSED
+ *   pitch_message   → e.g. "Main pitch waterlogged — Sunday sessions on Pitch 2"
+ *   clubhouse_note  → e.g. "Bar open from 2pm Saturday"
+ *
+ * Banner (time-bounded promotional image in the Club Intro section):
+ *   banner_image_url → Full public URL of the image (e.g. from Google Drive or Cloudinary)
+ *                      To get a shareable Google Drive image URL:
+ *                        Upload → Share (Anyone with link) → copy ID from URL →
+ *                        use: https://drive.google.com/uc?id=FILE_ID
+ *   banner_expires   → YYYY-MM-DD (e.g. "2026-11-06"). Banner is hidden automatically
+ *                      after midnight on this date. Leave blank to show indefinitely.
+ *
+ * Links (keeps URLs out of code — update from the sheet, no deploy needed):
+ *   membership_url → Full URL for membership / subscription sign-up page
+ *                    e.g. https://www.southwellrfc.com/a/membership-subscriptions-...
+ *                    Falls back to the hardcoded URL in Nav/Footer if not set.
+ *
+ * Example rows:
+ *   key               | value
+ *   pitch_status      | OPEN
+ *   banner_image_url  | https://drive.google.com/uc?id=1AbCdEfG...
+ *   banner_expires    | 2026-11-06
+ *   membership_url    | https://www.southwellrfc.com/a/membership-subscriptions-information-inc-online-registration-61282.html?page=2
  */
 export interface SheetSetting {
   key: string;
@@ -155,4 +176,37 @@ export async function getSheetSettings(): Promise<Record<string, string>> {
 export async function getSetting(key: string, fallback = ""): Promise<string> {
   const settings = await getSheetSettings();
   return settings[key] ?? fallback;
+}
+
+// ─── TEAMS ────────────────────────────────────────────────────────────────────
+
+/**
+ * Teams tab columns (case-insensitive, spaces → underscores):
+ * category | name | day | time | format
+ *
+ * Column meanings:
+ *   category → Minis & Juniors | Senior Men | Women & Girls | Social & Veterans
+ *   name     → e.g. "1st XV", "U6 / U7 (Minis)"
+ *   day      → e.g. "Tuesday & Thursday", "Sunday"
+ *   time     → e.g. "7:00 PM"  (displayed as-is)
+ *   format   → e.g. "Counties 1 Midlands East (North)"
+ *
+ * If SHEET_GID_TEAMS is not set, getSheetTeams() returns [] and
+ * SquadSelector falls back to its built-in hard-coded data.
+ */
+export interface SheetTeam {
+  category: string;
+  name: string;
+  day: string;
+  time: string;
+  format: string;
+}
+
+export async function getSheetTeams(): Promise<SheetTeam[]> {
+  if (!TABS.teams) {
+    // GID not configured — caller uses hard-coded fallback
+    return [];
+  }
+  const rows = await fetchCsv<SheetTeam>(TABS.teams);
+  return rows.filter((r) => r.category && r.name);
 }

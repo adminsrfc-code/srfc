@@ -1,8 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import type { SheetTeam } from "@/lib/sheets";
 
-const squads = [
+// ─── Hard-coded fallback data ─────────────────────────────────────────────────
+// These are used when no Teams tab has been configured in Google Sheets.
+// To override from the sheet, set SHEET_GID_TEAMS in .env.local and populate
+// the tab with columns: category | name | day | time | format
+const FALLBACK_SQUADS = [
   {
     category: "Minis & Juniors",
     emoji: "🏉",
@@ -69,10 +74,55 @@ const squads = [
   },
 ];
 
-export function SquadSelector() {
-  const [activeCategory, setActiveCategory] = useState(squads[0].category);
+const CATEGORY_META: Record<string, { emoji: string; description: string }> = {
+  "Minis & Juniors": {
+    emoji: "🏉",
+    description: "Age-grade rugby from U6 to U18. Tag, contact, and junior competitions.",
+  },
+  "Senior Men": {
+    emoji: "💪",
+    description: "Competitive senior rugby from Counties 1 down to our social 'Bandits' side.",
+  },
+  "Women & Girls": {
+    emoji: "⭐",
+    description: "The Peaches — our senior women's team. Girls rugby also available at junior level.",
+  },
+  "Social & Veterans": {
+    emoji: "🍺",
+    description: "Touch rugby, veterans rugby, and the legendary Bandits 3rd XV.",
+  },
+};
 
-  const active = squads.find((s) => s.category === activeCategory)!;
+type SquadSelectorProps = {
+  /** Teams fetched from Google Sheets. When non-empty, overrides the hard-coded fallback. */
+  sheetTeams?: SheetTeam[];
+};
+
+export function SquadSelector({ sheetTeams = [] }: SquadSelectorProps) {
+  // Build squads from sheet data if available, otherwise use fallback
+  const squads =
+    sheetTeams.length > 0
+      ? (() => {
+          // Group sheet rows by category, preserving insertion order
+          const grouped = new Map<string, SheetTeam[]>();
+          for (const t of sheetTeams) {
+            const existing = grouped.get(t.category) ?? [];
+            existing.push(t);
+            grouped.set(t.category, existing);
+          }
+          return Array.from(grouped.entries()).map(([category, teams]) => ({
+            category,
+            emoji: CATEGORY_META[category]?.emoji ?? "🏉",
+            description: CATEGORY_META[category]?.description ?? "",
+            teams: teams.map((t) => ({ name: t.name, day: t.day, time: t.time, format: t.format })),
+          }));
+        })()
+      : FALLBACK_SQUADS;
+
+  const [activeCategory, setActiveCategory] = useState(squads[0]?.category ?? "");
+  const active = squads.find((s) => s.category === activeCategory) ?? squads[0];
+
+  if (!active) return null;
 
   return (
     <div className="max-w-4xl mx-auto">

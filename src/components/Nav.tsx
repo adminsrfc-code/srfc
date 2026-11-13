@@ -10,7 +10,21 @@ const links = [
   { label: "Contacts", href: "/contacts" },
 ];
 
-export function Nav() {
+// External links shown in desktop nav alongside internal links
+const externalLinks = [
+  {
+    label: "🛍 Kit Shop",
+    href: "https://www.gilbertrugby.com/collections/southwell-rfc",
+    title: "Official Southwell RFC kit — powered by Gilbert Rugby",
+  },
+];
+
+type NavProps = {
+  /** Membership sign-up URL — passed from layout (sourced from Google Sheets settings). */
+  membershipUrl: string;
+};
+
+export function Nav({ membershipUrl }: NavProps) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -63,16 +77,30 @@ export function Nav() {
                 {link.label}
               </Link>
             ))}
+            {externalLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={link.title}
+                className="text-gold/80 hover:text-gold font-body font-medium text-sm px-4 py-2 rounded-lg hover:bg-white/10 transition-all duration-200"
+              >
+                {link.label}
+              </a>
+            ))}
           </nav>
 
           {/* CTA + Hamburger */}
           <div className="flex items-center gap-3">
-            <Link
-              href="/contacts"
+            <a
+              href={membershipUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="hidden sm:inline-flex items-center gap-2 bg-maroon-vibrant hover:bg-red-700 text-white font-body font-semibold text-sm px-4 py-2 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-maroon-vibrant/40"
             >
               🏉 Join Us
-            </Link>
+            </a>
             <button
               onClick={() => setOpen(!open)}
               className="md:hidden p-2 rounded-lg text-white hover:bg-white/10 transition-colors"
@@ -100,13 +128,27 @@ export function Nav() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/contacts"
+            {externalLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className="block text-gold/80 hover:text-gold font-body font-medium px-3 py-3 rounded-lg hover:bg-white/10 transition-colors"
+              >
+                {link.label} ↗
+              </a>
+            ))}
+            <a
+              href={membershipUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => setOpen(false)}
               className="block bg-maroon-vibrant text-white font-body font-semibold px-3 py-3 rounded-lg text-center mt-3"
             >
               🏉 Join Southwell RFC
-            </Link>
+            </a>
           </div>
         </div>
       )}
