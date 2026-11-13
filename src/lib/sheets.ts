@@ -27,10 +27,10 @@ const SHEET_ID = process.env.GOOGLE_SHEET_ID ?? "YOUR_SHEET_ID_HERE";
 // Tab GIDs — find by clicking each tab and checking the URL: ...#gid=XXXXXXXX
 const TABS = {
   events: process.env.SHEET_GID_EVENTS ?? "0",
-  contacts: process.env.SHEET_GID_CONTACTS ?? "1",
-  sponsors: process.env.SHEET_GID_SPONSORS ?? "2",
-  settings: process.env.SHEET_GID_SETTINGS ?? "3",
-  teams: process.env.SHEET_GID_TEAMS ?? "",   // optional — leave blank to use hard-coded fallback
+  contacts: process.env.SHEET_GID_CONTACTS ?? "325683942",
+  sponsors: process.env.SHEET_GID_SPONSORS ?? "2041061867",
+  settings: process.env.SHEET_GID_SETTINGS ?? "903076713",
+  teams: process.env.SHEET_GID_TEAMS ?? "1451747871",   // optional — leave blank to use hard-coded fallback
 } as const;
 
 // Cache duration in seconds (Next.js ISR)
