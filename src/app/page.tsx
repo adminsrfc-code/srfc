@@ -35,7 +35,7 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero */}
-      <HeroSection nextFixture={nextFixture} />
+      <HeroSection nextFixture={nextFixture} expires={bannerExpires} imageURL={bannerImageUrl} activeBanner={isBannerActive} />
 
       {/* Club Intro */}
       <section className="bg-white py-14 lg:py-20">
@@ -76,32 +76,23 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Right column: Banner image if active, otherwise stats grid */}
-            {isBannerActive ? (
-              <HeroBanner
-                imageUrl={bannerImageUrl}
-                expires={bannerExpires}
-                alt="Club announcement"
-              />
-            ) : (
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { num: "1922", label: "Year Founded", sub: "Over 100 years of rugby" },
-                  { num: "11+", label: "Teams", sub: "From U6 to Senior Men" },
-                  { num: "Minis", label: "to Masters", sub: "Welcoming all abilities" },
-                  { num: "NG25", label: "0QN", sub: "Park Lane, Southwell" },
-                ].map((stat) => (
-                  <div
-                    key={stat.num}
-                    className="bg-cream border border-border rounded-2xl p-6 text-center hover:border-maroon/30 hover:shadow-md transition-all duration-200"
-                  >
-                    <span className="font-display font-bold text-3xl lg:text-4xl text-maroon block">{stat.num}</span>
-                    <span className="font-display font-bold text-sm text-slate block mt-1">{stat.label}</span>
-                    <span className="font-body text-xs text-muted block mt-1">{stat.sub}</span>
-                  </div>
-                ))}
-              </div>
-            )}
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { num: "1922", label: "Year Founded", sub: "Over 100 years of rugby" },
+                { num: "11+", label: "Teams", sub: "From U6 to Senior Men" },
+                { num: "Minis", label: "to Masters", sub: "Welcoming all abilities" },
+                { num: "NG25", label: "0QN", sub: "Park Lane, Southwell" },
+              ].map((stat) => (
+                <div
+                  key={stat.num}
+                  className="bg-cream border border-border rounded-2xl p-6 text-center hover:border-maroon/30 hover:shadow-md transition-all duration-200"
+                >
+                  <span className="font-display font-bold text-3xl lg:text-4xl text-maroon block">{stat.num}</span>
+                  <span className="font-display font-bold text-sm text-slate block mt-1">{stat.label}</span>
+                  <span className="font-body text-xs text-muted block mt-1">{stat.sub}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

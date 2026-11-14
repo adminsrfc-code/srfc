@@ -1,12 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Fixture } from "@/lib/rfu";
+import { HeroBanner } from "./HeroBanner";
 
 interface HeroSectionProps {
   nextFixture: Fixture | null;
+  activeBanner: boolean;
+  expires: string;
+  imageURL: string;
 }
 
-export function HeroSection({ nextFixture }: HeroSectionProps) {
+export function HeroSection({ nextFixture, activeBanner, expires, imageURL }: HeroSectionProps) {
   const fixtureDate = nextFixture
     ? new Date(nextFixture.date).toLocaleDateString("en-GB", {
       weekday: "short",
@@ -137,22 +141,32 @@ export function HeroSection({ nextFixture }: HeroSectionProps) {
               </div>
             )}
 
-            {/* Club quick-facts */}
-            <div className="grid grid-cols-3 gap-3">
-              {[
-                { icon: "🏆", label: "Est. 1922" },
-                { icon: "👥", label: "11+ Teams" },
-                { icon: "📍", label: "Southwell" },
-              ].map((item) => (
-                <div
-                  key={item.label}
-                  className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center"
-                >
-                  <span className="text-2xl block mb-1">{item.icon}</span>
-                  <span className="font-body text-white/80 text-xs font-medium">{item.label}</span>
+            {activeBanner ? (
+              <HeroBanner
+                imageUrl={imageURL}
+                expires={expires}
+                alt="Club announcement"
+              />
+            ) : (
+              <>
+                {/* Club quick-facts */}
+                < div className="grid grid-cols-3 gap-3">
+                  {[
+                    { icon: "🏆", label: "Est. 1922" },
+                    { icon: "👥", label: "11+ Teams" },
+                    { icon: "📍", label: "Southwell" },
+                  ].map((item) => (
+                    <div
+                      key={item.label}
+                      className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center"
+                    >
+                      <span className="text-2xl block mb-1">{item.icon}</span>
+                      <span className="font-body text-white/80 text-xs font-medium">{item.label}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -164,6 +178,6 @@ export function HeroSection({ nextFixture }: HeroSectionProps) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </div>
-    </section>
+    </section >
   );
 }

@@ -69,6 +69,67 @@ async function fetchCsv<T>(gid: string): Promise<T[]> {
   }
 }
 
+function parseCsvToRecord(csvString?: string): Record<string, string> {
+  try {
+    // 1. Guard against empty or invalid inputs
+    if (!csvString || typeof csvString !== "string") {
+      return {};
+    }
+
+    // 2. Split into non-empty lines
+    const lines = csvString.split(/\r?\n/).filter(line => line.trim() !== "");
+
+    // We need at least a header row and a data row
+    if (lines.length < 2) {
+      return {};
+    }
+
+    // 3. Extract headers (row 1) and values (row 2)
+    const headers = lines[0].split(',').map(h => h.trim());
+    const values = lines[1].split(',').map(v => v.trim());
+
+    const result: Record<string, string> = {};
+
+    // 4. Zip them together into a single key-value object
+    for (let i = 0; i < headers.length; i++) {
+      const key = headers[i];
+      if (key) {
+        result[key] = values[i] ?? "";
+      }
+    }
+
+    return result;
+  } catch (error) {
+    console.error("Failed to parse CSV string:", error);
+    return {};
+  }
+}
+
+async function fetchSettings(): Promise<Record<string, string>> {
+  const gid = TABS.settings;
+  if (SHEET_ID === "YOUR_SHEET_ID_HERE") {
+    console.warn("[sheets] GOOGLE_SHEET_ID not configured — returning empty data");
+    return {};
+  }
+  try {
+    const res = await fetch(sheetUrl(gid), {
+      next: { revalidate: REVALIDATE },
+      headers: { Accept: "text/csv" },
+    });
+    if (!res.ok) {
+      console.error(`[sheets] HTTP ${res.status} fetching settings gid=${gid}`);
+      return {}
+    };
+
+    const csvString = await res.text();
+    return parseCsvToRecord(csvString);
+  } catch (err) {
+    console.error("[sheets] Fetch failed:", err);
+    return {};
+  }
+}
+
+
 // ─── TYPES ────────────────────────────────────────────────────────────────────
 
 /**
@@ -168,8 +229,8 @@ export async function getSheetSponsors(): Promise<SheetSponsor[]> {
 }
 
 export async function getSheetSettings(): Promise<Record<string, string>> {
-  const rows = await fetchCsv<SheetSetting>(TABS.settings);
-  return Object.fromEntries(rows.filter((r) => r.key).map((r) => [r.key.trim(), r.value?.trim() ?? ""]));
+  const records = await fetchSettings();
+  return records;
 }
 
 // Convenience: get a single setting value
