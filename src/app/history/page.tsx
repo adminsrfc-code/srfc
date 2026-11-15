@@ -90,6 +90,9 @@ export default function HistoryPage() {
             <h2 className="font-display font-bold text-3xl text-slate !mb-4 !mt-10">
               THE GROUND & FACILITIES
             </h2>
+            <img src="../clubHouse.png" className="w-full h-auto object-cover"
+              loading="lazy"
+            ></img>
             <p className="font-body text-muted leading-relaxed">
               Park Lane offers multiple pitches with floodlighting for evening training, a
               purpose-built clubhouse with a licensed bar, function room available for hire,
@@ -158,9 +161,8 @@ export default function HistoryPage() {
               {milestones.map((m, i) => (
                 <div
                   key={m.year}
-                  className={`relative flex gap-6 lg:gap-0 ${
-                    i % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
-                  }`}
+                  className={`relative flex gap-6 lg:gap-0 ${i % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
+                    }`}
                 >
                   {/* Dot */}
                   <div className="absolute left-4 lg:left-1/2 top-4 w-3 h-3 rounded-full bg-maroon border-2 border-white shadow-md lg:-translate-x-1.5" />
