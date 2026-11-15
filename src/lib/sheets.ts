@@ -30,7 +30,8 @@ const TABS = {
   contacts: process.env.SHEET_GID_CONTACTS ?? "325683942",
   sponsors: process.env.SHEET_GID_SPONSORS ?? "2041061867",
   settings: process.env.SHEET_GID_SETTINGS ?? "903076713",
-  teams: process.env.SHEET_GID_TEAMS ?? "1451747871",   // optional — leave blank to use hard-coded fallback
+  teams: process.env.SHEET_GID_TEAMS ?? "1451747871",
+  subscritions: process.env.SHEET_GID_SUBS ?? "1265768918"
 } as const;
 
 // Cache duration in seconds (Next.js ISR)
@@ -41,7 +42,7 @@ function sheetUrl(gid: string) {
   return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${gid}`;
 }
 
-async function fetchCsv<T>(gid: string): Promise<T[]> {
+async function fetchCsv<T>(gid: string, toLowerCase = true): Promise<T[]> {
   if (SHEET_ID === "YOUR_SHEET_ID_HERE") {
     console.warn("[sheets] GOOGLE_SHEET_ID not configured — returning empty data");
     return [];
@@ -56,10 +57,12 @@ async function fetchCsv<T>(gid: string): Promise<T[]> {
       return [];
     }
     const text = await res.text();
+    const transformHeader = toLowerCase ? (h: string) => h.trim().toLowerCase().replace(/\s+/g, "_")
+      : (h: string) => h.trim().replace(/\s+/g, "_");
     const { data, errors } = Papa.parse<T>(text, {
       header: true,
       skipEmptyLines: true,
-      transformHeader: (h) => h.trim().toLowerCase().replace(/\s+/g, "_"),
+      transformHeader,
     });
     if (errors.length) console.warn("[sheets] CSV parse warnings:", errors);
     return data;
@@ -174,6 +177,22 @@ export interface SheetSponsor {
   active?: string;  // "TRUE" or ""
 }
 
+export interface SheetSubs {
+
+
+
+
+  season: string;
+  dueDate: string;
+  seniorMen: string;
+  seniorMenNote: string;
+  seniorWomenStudents: string;
+  U13toU18: string;
+  U7toU12: string;
+  U6: string;
+  social: string
+}
+
 /**
  * Settings tab columns:
  * key | value
@@ -226,6 +245,11 @@ export async function getSheetContacts(): Promise<SheetContact[]> {
 export async function getSheetSponsors(): Promise<SheetSponsor[]> {
   const rows = await fetchCsv<SheetSponsor>(TABS.sponsors);
   return rows.filter((r) => r.name && r.active?.toUpperCase() === "TRUE");
+}
+
+export async function getSheetSubs(): Promise<SheetSubs> {
+  const rows = await fetchCsv<SheetSubs>(TABS.subscritions, false);
+  return rows[0];
 }
 
 export async function getSheetSettings(): Promise<Record<string, string>> {
