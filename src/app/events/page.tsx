@@ -14,8 +14,7 @@ export const revalidate = 300;
 export default async function EventsPage() {
   // RFU API owns ALL fixture data — no duplicate entry in sheets
   // Google Sheets only provides social/club events (bonfire night, Christmas party, etc.)
-  const [fixtures, sheetEvents] = await Promise.all([
-    getSouthwellFixtures(),
+  const [sheetEvents] = await Promise.all([
     getSheetEvents(),
   ]);
 
@@ -27,7 +26,7 @@ export default async function EventsPage() {
 
   return (
     <div className="pt-16 lg:pt-20">
-      <EventsClient fixtures={fixtures} socialEvents={socialEvents} />
+      <EventsClient socialEvents={socialEvents} />
     </div>
   );
 }
