@@ -4,7 +4,7 @@ import { getSheetEvents } from "@/lib/sheets";
 import { EventsClient } from "./EventsClient";
 
 export const metadata: Metadata = {
-  title: "Fixtures & Events",
+  title: "Events",
   description:
     "Southwell RFC fixtures, results and upcoming events. Counties 1 Midlands East (North) and all team schedules.",
 };
@@ -27,20 +27,6 @@ export default async function EventsPage() {
 
   return (
     <div className="pt-16 lg:pt-20">
-      <div className="bg-maroon-deep text-white py-14 lg:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="font-body text-gold text-xs font-semibold tracking-widest uppercase block mb-3">
-            2025–2026 Season
-          </span>
-          <h1 className="font-display font-extrabold text-4xl lg:text-6xl text-white">
-            FIXTURES &<br />EVENTS
-          </h1>
-          <p className="font-body text-white/60 mt-4 text-lg max-w-xl">
-            Fixtures pulled live from England Rugby. Club events managed by the secretary.
-          </p>
-        </div>
-      </div>
-
       <EventsClient fixtures={fixtures} socialEvents={socialEvents} />
     </div>
   );

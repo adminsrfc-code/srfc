@@ -26,6 +26,7 @@ export function FixtureCard({ fixture, dark = false }: FixtureCardProps) {
     ? "bg-white/20 text-white/80"
     : "bg-maroon/10 text-maroon";
 
+  console.log(fixture);
   return (
     <div className={`${cardBase} rounded-2xl p-5 transition-all duration-200`}>
       {/* Top row */}
@@ -40,15 +41,14 @@ export function FixtureCard({ fixture, dark = false }: FixtureCardProps) {
             </span>
           )}
           <span
-            className={`font-body text-xs font-semibold px-2.5 py-1 rounded-full ${
-              fixture.home
-                ? dark
-                  ? "bg-green-open/30 text-emerald-300"
-                  : "bg-green-open/10 text-green-open"
-                : dark
+            className={`font-body text-xs font-semibold px-2.5 py-1 rounded-full ${fixture.home
+              ? dark
+                ? "bg-green-open/30 text-emerald-300"
+                : "bg-green-open/10 text-green-open"
+              : dark
                 ? "bg-white/10 text-white/60"
                 : "bg-slate/10 text-slate"
-            }`}
+              }`}
           >
             {fixture.home ? "HOME" : "AWAY"}
           </span>

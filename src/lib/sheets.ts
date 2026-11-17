@@ -17,6 +17,7 @@
  */
 
 import Papa from "papaparse";
+import { Fixture } from "./rfu";
 
 // ─── CONFIGURATION ────────────────────────────────────────────────────────────
 // Replace SHEET_ID with the real ID from the Google Sheets URL
@@ -31,7 +32,8 @@ const TABS = {
   sponsors: process.env.SHEET_GID_SPONSORS ?? "2041061867",
   settings: process.env.SHEET_GID_SETTINGS ?? "903076713",
   teams: process.env.SHEET_GID_TEAMS ?? "1451747871",
-  subscritions: process.env.SHEET_GID_SUBS ?? "1265768918"
+  subscritions: process.env.SHEET_GID_SUBS ?? "1265768918",
+  fixtures: process.env.SHEET_GID_FIXTURES ?? "522066772"
 } as const;
 
 // Cache duration in seconds (Next.js ISR)
@@ -287,6 +289,21 @@ export interface SheetTeam {
   format: string;
 }
 
+export interface SheetFixtures {
+  date: string;
+  time: string;
+  home: boolean;
+  homeTeam: string;
+  awayTeam: string;
+  venue: string;
+  competition: string;
+  status: "upcoming" | "result" | "postponed" | "cancelled";
+  homeScore?: number | null;
+  awayScore?: number | null;
+  team: string;
+}
+
+
 export async function getSheetTeams(): Promise<SheetTeam[]> {
   if (!TABS.teams) {
     // GID not configured — caller uses hard-coded fallback
@@ -294,4 +311,31 @@ export async function getSheetTeams(): Promise<SheetTeam[]> {
   }
   const rows = await fetchCsv<SheetTeam>(TABS.teams);
   return rows.filter((r) => r.category && r.name);
+}
+
+export async function getSheetFixtures(): Promise<SheetFixtures[]> {
+  if (!TABS.fixtures) {
+    // GID not configured — caller uses hard-coded fallback
+    return [];
+  }
+  const rawRows = await fetchCsv<Record<string, string | undefined>>(TABS.fixtures);
+  const sheetFixtures: Omit<Fixture, "id">[] = rawRows.map((row) => ({
+    date: (row.date ?? "").trim(),
+    time: (row.time ?? "").trim(),
+    home: String(row.home).trim().toUpperCase() === "TRUE",
+    // Handle camelCase, lowercase, or snake_case headers safely
+    homeTeam: (row.homeTeam ?? row.hometeam ?? row.home_team ?? "").trim(),
+    awayTeam: (row.awayTeam ?? row.awayteam ?? row.away_team ?? "").trim(),
+    venue: (row.venue ?? "").trim(),
+    competition: (row.competition ?? "").trim(),
+    status: ((row.status ?? "upcoming").trim() as Fixture["status"]),
+    homeScore: row.homeScore || row.homescore || row.home_score
+      ? Number(row.homeScore ?? row.homescore ?? row.home_score)
+      : null,
+    awayScore: row.awayScore || row.awayscore || row.away_score
+      ? Number(row.awayScore ?? row.awayscore ?? row.away_score)
+      : null,
+    team: (row.team ?? "").trim(),
+  }));
+  return sheetFixtures;
 }

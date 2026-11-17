@@ -2,7 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 const navLinks = [
-  { label: "Fixtures & Events", href: "/events" },
+  { label: "Fixtures ", href: "/fixtures" },
+  { label: "Events", href: "/events" },
   { label: "Club History", href: "/history" },
   { label: "Contacts", href: "/contacts" },
 ];
