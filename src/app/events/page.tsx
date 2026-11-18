@@ -34,7 +34,7 @@ export default async function EventsPage() {
 
   return (
     <div className="pt-16 lg:pt-20 px-4 sm:px-6 lg:px-8 flex justify-center">
-      <div className="w-full max-w-4xl lg:mb-5 grid grid-cols-3 lg:grid-cols-2  gap-12 lg:gap-16 items-start">
+      <div className="w-full max-w-4xl mb-5 grid lg:grid-cols-3 lg:grid-cols-2  gap-12 lg:gap-16 items-start">
 
         {/* Left Column: Events Section */}
         <div className="w-full grid-span-2 ">
