@@ -176,8 +176,9 @@ export interface SheetContact {
 export interface SheetSponsor {
   name: string;
   url?: string;
-  logo_url?: string;
+  logo?: string;
   active?: string;  // "TRUE" or ""
+  logowhite?: string; // "TRUE" or ""
 }
 
 export interface SheetSubs {

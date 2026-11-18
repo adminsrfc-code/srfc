@@ -190,11 +190,14 @@ export default async function HomePage() {
             </p>
             <div className="flex flex-wrap items-center justify-center gap-8 lg:gap-14">
               {sponsors.map((sponsor) =>
-                sponsor.logo_url ? (
+                sponsor.logo ? (
                   <a key={sponsor.name} href={sponsor.url ?? "#"} target="_blank" rel="noopener noreferrer"
                     className="opacity-60 hover:opacity-100 transition-opacity">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={sponsor.logo_url} alt={sponsor.name} className="h-10 object-contain" />
+                    {sponsor.logowhite ?
+                      <img src={sponsor.logo} alt={sponsor.name} className="h-10 object-contain bg-black p-3 rounded" />
+                      :
+                      <img src={sponsor.logo} alt={sponsor.name} className="h-10 object-contain" />}
                   </a>
                 ) : (
                   <a key={sponsor.name} href={sponsor.url ?? "#"} target="_blank" rel="noopener noreferrer"
