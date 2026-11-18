@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { getSouthwellFixtures } from "@/lib/rfu";
-import { getSheetEvents } from "@/lib/sheets";
+import { getSheetEvents, getSheetSettings } from "@/lib/sheets";
 import { EventsClient } from "./EventsClient";
+import { HeroBanner } from "@/components/HeroBanner";
 
 export const metadata: Metadata = {
   title: "Events",
@@ -14,8 +15,9 @@ export const revalidate = 300;
 export default async function EventsPage() {
   // RFU API owns ALL fixture data — no duplicate entry in sheets
   // Google Sheets only provides social/club events (bonfire night, Christmas party, etc.)
-  const [sheetEvents] = await Promise.all([
+  const [sheetEvents, settings] = await Promise.all([
     getSheetEvents(),
+    getSheetSettings()
   ]);
 
   // Only non-cancelled events from the sheet — social, training, other
@@ -23,10 +25,38 @@ export default async function EventsPage() {
   const socialEvents = sheetEvents.filter(
     (e) => e.cancelled?.toUpperCase() !== "TRUE"
   );
+  // Time-bounded banner from Settings sheet
+  const imageURL = settings["banner_image_url"] ?? "";
+  const expires = settings["banner_expires"] ?? "";
+  const isBannerActive =
+    imageURL !== "" &&
+    (expires === "" || Date.now() <= new Date(`${expires}T23:59:59Z`).getTime());
 
   return (
-    <div className="pt-16 lg:pt-20">
-      <EventsClient socialEvents={socialEvents} />
+    <div className="pt-16 lg:pt-20 px-4 sm:px-6 lg:px-8 flex justify-center">
+      <div className="w-full max-w-4xl lg:mb-5 grid grid-cols-3 lg:grid-cols-2  gap-12 lg:gap-16 items-start">
+
+        {/* Left Column: Events Section */}
+        <div className="w-full grid-span-2 ">
+          <EventsClient socialEvents={socialEvents} bookingLink={settings.booking} />
+
+        </div>
+
+
+
+        {/* Right Column: Banner Image */}
+        {isBannerActive && (
+          <div className="w-full lg:mt-10 flex justify-center">
+            <img
+              src={imageURL}
+              alt="Club announcement"
+              className="w-full h-auto object-cover rounded-2xl overflow-hidden shadow-lg border border-border"
+              loading="lazy"
+            />
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }

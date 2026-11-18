@@ -26,7 +26,6 @@ export function FixtureCard({ fixture, dark = false }: FixtureCardProps) {
     ? "bg-white/20 text-white/80"
     : "bg-maroon/10 text-maroon";
 
-  console.log(fixture);
   return (
     <div className={`${cardBase} rounded-2xl p-5 transition-all duration-200`}>
       {/* Top row */}

@@ -154,6 +154,7 @@ export interface SheetEvent {
   type: "social" | "training" | "other";
   notes?: string;     // Short description shown on site
   cancelled?: string; // "TRUE" to hide the event
+  payment?: string;
 }
 
 /**
