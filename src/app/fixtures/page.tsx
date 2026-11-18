@@ -11,50 +11,15 @@ export const metadata: Metadata = {
 
 export const revalidate = 300;
 
-function mergeFixtures(apiFixtures: Fixture[], sheetFixtures: Omit<Fixture, "id">[]): Fixture[] {
-    // 1. Create a Map to store unique fixtures by a composite key
-    const fixtureMap = new Map<string, Fixture>();
 
-    // Helper to generate a unique signature for matching
-    const getSignature = (f: { date: string; team: string; homeTeam: string; awayTeam: string }) =>
-        `${f.date}_${f.team}_${f.homeTeam}_${f.awayTeam}`.toLowerCase().trim();
-
-    // 2. Load API fixtures into the map first
-    for (const fixture of apiFixtures) {
-        const key = getSignature(fixture);
-        fixtureMap.set(key, fixture);
-    }
-
-    // 3. Process sheet fixtures: generate an ID on the fly and overwrite API matches
-    sheetFixtures.forEach((sheetFixture, index) => {
-        const key = getSignature(sheetFixture);
-
-        // Generate an ID for the sheet fixture (using crypto.randomUUID or a fallback string)
-        const newId = `sheet-${index}-${Date.now()}`;
-
-        const completeSheetFixture: Fixture = {
-            ...sheetFixture,
-            id: newId,
-        };
-
-        // Because we set this AFTER apiFixtures, sheetFixtures will overwrite any duplicates
-        fixtureMap.set(key, completeSheetFixture);
-    });
-
-    // 4. Convert the Map values back into a single consolidated array
-    return Array.from(fixtureMap.values());
-}
 
 export default async function EventsPage() {
     // RFU API owns ALL fixture data — no duplicate entry in sheets
     // Google Sheets only provides social/club events (bonfire night, Christmas party, etc.)
-    const [apiFixtures, sheetFixtures, sheetSubs] = await Promise.all([
+    const [fixtures, sheetSubs] = await Promise.all([
         getSouthwellFixtures(),
-        getSheetFixtures(),
         getSheetSubs()
     ]);
-
-    const fixtures = mergeFixtures(apiFixtures, sheetFixtures);
 
     return (
         <div className="pt-16 lg:pt-20">

@@ -21,6 +21,8 @@
 //   - As a last resort, fixtures can be linked from:
 //     https://www.englandrugby.com/fixtures-and-results (manual link only).
 
+import { getSheetFixtures } from "./sheets";
+
 //import { scrapeEnglandRugbyTeamPage } from "@/lib/scrapeRfu"
 
 const RFU_BASE = "https://cluster.england-rfu.com";
@@ -72,50 +74,52 @@ async function getCurrentSeasonId(): Promise<number> {
   }
 }
 
-const sampleFixtures: Fixture[] = [
-  {
-    id: "fix-001",
-    date: "2026-11-22",
-    time: "10:30",
-    home: true,
-    homeTeam: "Southwell RFC U12",
-    awayTeam: "Newark RFC U12",
-    venue: "Park Lane, Southwell",
-    competition: "Notts, Lincs & Derbyshire Junior League",
-    status: "upcoming",
-    team: "U12"
-  },
-  {
-    id: "fix-002",
-    date: "2026-11-14",
-    time: "14:15",
-    home: true,
-    homeTeam: "Southwell 1st XV",
-    awayTeam: "Paviors RFC",
-    venue: "Park Lane, Southwell",
-    competition: "Counties 1 Midlands East (North)",
-    status: "result",
-    homeScore: 24,
-    awayScore: 18,
-    team: "1st XV"
-  },
-  {
-    id: "fix-003",
-    date: "2026-11-21",
-    time: "14:00",
-    home: false,
-    homeTeam: "Mansfield 2nd XV",
-    awayTeam: "Southwell 2nd XV",
-    venue: "Eakring Road, Mansfield",
-    competition: "Midlands Reserve League",
-    status: "postponed",
-    homeScore: null,
-    awayScore: null,
-    team: "2nd XV"
+
+function mergeFixtures(apiFixtures: Fixture[], sheetFixtures: Omit<Fixture, "id">[]): Fixture[] {
+  // 1. Create a Map to store unique fixtures by a composite key
+  const fixtureMap = new Map<string, Fixture>();
+
+  // Helper to generate a unique signature for matching
+  const getSignature = (f: { date: string; team: string; homeTeam: string; awayTeam: string }) =>
+    `${f.date}_${f.team}_${f.homeTeam}_${f.awayTeam}`.toLowerCase().trim();
+
+  // 2. Load API fixtures into the map first
+  for (const fixture of apiFixtures) {
+    const key = getSignature(fixture);
+    fixtureMap.set(key, fixture);
   }
-];
+
+  // 3. Process sheet fixtures: generate an ID on the fly and overwrite API matches
+  sheetFixtures.forEach((sheetFixture, index) => {
+    const key = getSignature(sheetFixture);
+
+    // Generate an ID for the sheet fixture (using crypto.randomUUID or a fallback string)
+    const newId = `sheet-${index}-${Date.now()}`;
+
+    const completeSheetFixture: Fixture = {
+      ...sheetFixture,
+      id: newId,
+    };
+
+    // Because we set this AFTER apiFixtures, sheetFixtures will overwrite any duplicates
+    fixtureMap.set(key, completeSheetFixture);
+  });
+
+  // 4. Convert the Map values back into a single consolidated array
+  return Array.from(fixtureMap.values());
+}
 
 export async function getSouthwellFixtures(): Promise<Fixture[]> {
+  const [apiFixtures, sheetFixtures] = await Promise.all([
+    getAPISouthwellFixtures(),
+    getSheetFixtures(),
+  ]);
+  const fixtures = mergeFixtures(apiFixtures, sheetFixtures);
+
+  return fixtures;
+}
+
+export async function getAPISouthwellFixtures(): Promise<Fixture[]> {
   try {
     const seasonId = await getCurrentSeasonId();
     const url = `${RFU_BASE}/fixtures-and-results/full-matches?season=${seasonId}&groupId=${SOUTHWELL_CLUB_ID}`;
@@ -132,7 +136,7 @@ export async function getSouthwellFixtures(): Promise<Fixture[]> {
       // 500 here means the upstream service is failing — nothing to parse.
       console.warn(`[rfu] fixtures request failed: ${res.status} ${res.statusText}`);
       //return await scrapeEnglandRugbyTeamPage("19820");
-      return sampleFixtures;
+      return []
     }
 
     const data: unknown = await res.json();

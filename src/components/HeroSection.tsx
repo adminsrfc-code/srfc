@@ -90,7 +90,7 @@ export function HeroSection({ nextFixture, activeBanner, expires, imageURL }: He
                 🏉 Find Your Team
               </Link>
               <Link
-                href="/events"
+                href="/fixtures"
                 className="inline-flex items-center gap-2 border-2 border-white/30 text-white hover:border-white hover:bg-white/10 font-body font-semibold px-8 py-4 rounded-xl text-base backdrop-blur-sm transition-all duration-200"
               >
                 📅 This Week's Fixtures
