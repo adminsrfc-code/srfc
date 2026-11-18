@@ -23,7 +23,7 @@ import { Fixture } from "./rfu";
 // Replace SHEET_ID with the real ID from the Google Sheets URL
 // e.g. https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms/edit
 //                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-const SHEET_ID = process.env.GOOGLE_SHEET_ID ?? "YOUR_SHEET_ID_HERE";
+const SHEET_ID = process.env.GOOGLE_SHEET_ID ?? "10xjLm-IJ86twxHg-osUyAjqIkksG0NrX_KBQO_YWK78";
 
 // Tab GIDs — find by clicking each tab and checking the URL: ...#gid=XXXXXXXX
 const TABS = {

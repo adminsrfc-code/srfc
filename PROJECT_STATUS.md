@@ -1,7 +1,7 @@
 # Southwell RFC — Project Status
 
 > This file is the persistent "where were we?" tracker. Update it at the end of
-> every work session. Last updated: 2026-11-13 (session 3)
+> every work session. Last updated: 2026-11-18 (session 3)
 
 ---
 
@@ -34,34 +34,43 @@ errors).
 
 ### Components — all in `src/components/`
 
-- `Nav.tsx` — fixed top nav, scroll-aware bg, mobile hamburger menu, **Kit Shop link (Gilbert)**
-- `Footer.tsx` — club identity, quick links (**Kit Shop + Membership links added**), social icons, address
+- `Nav.tsx` — fixed top nav, scroll-aware bg, mobile hamburger menu, **Kit Shop
+  link (Gilbert)**
+- `Footer.tsx` — club identity, quick links (**Kit Shop + Membership links
+  added**), social icons, address
 - `HeroSection.tsx` — full-screen maroon hero with next fixture card
-- `FixtureCard.tsx` — dark/light variant, shows result score or vs, Google Calendar link
-- `SquadSelector.tsx` — tabbed squad/training time browser; **accepts `sheetTeams` prop** for sheet-driven times with hard-coded fallback
-- `PitchStatusBanner.tsx` — top-of-page pitch status (OPEN / INSPECTION / CLOSED)
-- `HeroBanner.tsx` — **NEW** time-bounded promotional image (replaces stats grid in Club Intro when configured)
+- `FixtureCard.tsx` — dark/light variant, shows result score or vs, Google
+  Calendar link
+- `SquadSelector.tsx` — tabbed squad/training time browser; **accepts
+  `sheetTeams` prop** for sheet-driven times with hard-coded fallback
+- `PitchStatusBanner.tsx` — top-of-page pitch status (OPEN / INSPECTION /
+  CLOSED)
+- `HeroBanner.tsx` — **NEW** time-bounded promotional image (replaces stats grid
+  in Club Intro when configured)
 
 ### Data Layer — all in `src/lib/`
 
-- `sheets.ts` — Google Sheets CSV reader; **added `SheetTeam` + `getSheetTeams()`**; **documented banner settings keys**; `SHEET_GID_TEAMS` env var (optional)
-- `rfu.ts` — RFU cluster API fixture fetcher; **added comprehensive comment block** explaining club ID 1523 stability and fallback strategy
+- `sheets.ts` — Google Sheets CSV reader; **added `SheetTeam` +
+  `getSheetTeams()`**; **documented banner settings keys**; `SHEET_GID_TEAMS`
+  env var (optional)
+- `rfu.ts` — RFU cluster API fixture fetcher; **added comprehensive comment
+  block** explaining club ID 1523 stability and fallback strategy
 - `contacts.ts` — wraps sheets contacts and groups by category
 
 ### Session 3 work completed (2026-11-13)
 
-| Item | Status |
-|------|--------|
-| `rfu.ts` — club ID comment + stability docs | ✅ Done |
-| Nav: Gilbert kit shop link | ✅ Done |
-| Footer: Kit shop + membership links | ✅ Done |
-| `sheets.ts`: SheetTeam type + getSheetTeams() | ✅ Done |
-| `sheets.ts`: Banner settings documented | ✅ Done |
+| Item                                             | Status  |
+| ------------------------------------------------ | ------- |
+| `rfu.ts` — club ID comment + stability docs      | ✅ Done |
+| Nav: Gilbert kit shop link                       | ✅ Done |
+| Footer: Kit shop + membership links              | ✅ Done |
+| `sheets.ts`: SheetTeam type + getSheetTeams()    | ✅ Done |
+| `sheets.ts`: Banner settings documented          | ✅ Done |
 | `SquadSelector.tsx`: Sheet-driven training times | ✅ Done |
 | `HeroBanner.tsx`: Time-bounded promotional image | ✅ Done |
-| `page.tsx`: Wired up teams + banner | ✅ Done |
-| `README.md`: Full admin guide for volunteers | ✅ Done |
-| `.env.local.example`: Added SHEET_GID_TEAMS | ✅ Done |
+| `page.tsx`: Wired up teams + banner              | ✅ Done |
+| `README.md`: Full admin guide for volunteers     | ✅ Done |
+| `.env.local.example`: Added SHEET_GID_TEAMS      | ✅ Done |
 
 ### Bug Fixes Applied
 
@@ -98,28 +107,20 @@ the URL\
 Add a `teams` tab to the Google Sheet with columns:
 `category | name | day | time | format`
 
-Set `SHEET_GID_TEAMS=<gid>` in env vars. Training times on "Find Your Team"
-will then be managed from the sheet. Until then, the hard-coded defaults
-in `SquadSelector.tsx` are used.
+Set `SHEET_GID_TEAMS=<gid>` in env vars. Training times on "Find Your Team" will
+then be managed from the sheet. Until then, the hard-coded defaults in
+`SquadSelector.tsx` are used.
 
 ### Promotional Banners
 
 To put up a time-bounded banner (e.g. bonfire night photo):
+
 1. Upload the image to Google Drive → Share (Anyone with link)
 2. Transform the URL: `https://drive.google.com/uc?id=FILE_ID`
 3. In Settings tab, add rows:
    - `banner_image_url` = the transformed URL
    - `banner_expires` = `YYYY-MM-DD` (e.g. `2026-11-06`)
 4. Site updates within 5 minutes automatically
-
-The banner appears in the right column of the Club Intro section, replacing
-the stats grid. After the expiry date it reverts to the stats grid automatically.
-
-### Membership Subs
-
-The "Join / Membership Subs" link in the footer currently points to `/contacts`.
-If the club has an online membership system (e.g. RFU GMS, Club 100), update
-the href in `Footer.tsx` and `Nav.tsx` → `externalLinks`.
 
 ---
 
