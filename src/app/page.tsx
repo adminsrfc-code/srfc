@@ -5,6 +5,7 @@ import { FixtureCard } from "@/components/FixtureCard";
 import { HeroSection } from "@/components/HeroSection";
 import { SquadSelector } from "@/components/SquadSelector";
 import { HeroBanner } from "@/components/HeroBanner";
+import { EventCard } from "./events/EventCard";
 
 export const revalidate = 300; // 5 minutes — synced with Google Sheets cache
 
@@ -153,28 +154,8 @@ export default async function HomePage() {
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {socialEvents.map((event) => (
-                <div
-                  key={event.title + event.date}
-                  className="bg-cream border border-border rounded-2xl p-6 hover:border-maroon/30 hover:shadow-md transition-all duration-200"
-                >
-                  <div className="flex items-start justify-between gap-3 mb-3">
-                    <span className="bg-maroon/10 text-maroon font-body font-semibold text-xs px-3 py-1 rounded-full capitalize">
-                      {event.type}
-                    </span>
-                    <span className="font-body text-muted text-sm">
-                      {new Date(event.date).toLocaleDateString("en-GB", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </span>
-                  </div>
-                  <h3 className="font-display font-bold text-xl text-slate mb-2">{event.title}</h3>
-                  {event.notes && (
-                    <p className="font-body text-muted text-sm leading-relaxed">{event.notes}</p>
-                  )}
-                </div>
+              {socialEvents.map((event, i) => (
+                <EventCard key={i} event={event}></EventCard>
               ))}
             </div>
           </div>

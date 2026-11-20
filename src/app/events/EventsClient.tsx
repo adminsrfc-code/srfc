@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import type { SheetEvent, SheetSetting } from "@/lib/sheets";
+import type { SheetEvent } from "@/lib/sheets";
+import { EventCard } from "./EventCard";
 import Link from "next/link";
 
 interface EventsClientProps {
@@ -25,35 +25,7 @@ export function EventsClient({ socialEvents, bookingLink }: EventsClientProps) {
         ) : (
           <div className="space-y-4">
             {socialEvents.map((event, i) => (
-              <div
-                key={`${event.title}-${i}`}
-                className="bg-white border border-border rounded-2xl p-5 hover:border-maroon/30 hover:shadow-sm transition-all"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="bg-gold/20 text-maroon font-body text-xs font-semibold px-2.5 py-1 rounded-full capitalize">
-                    {event.type}
-                  </span>
-                  <span className="font-body text-muted text-xs">
-                    {new Date(event.date).toLocaleDateString("en-GB", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </span>
-                </div>
-                <h3 className="font-display font-bold text-lg text-slate mb-1">{event.title}</h3>
-                {event.notes && (
-                  <p className="font-body text-muted text-sm leading-relaxed">{event.notes}</p>
-                )}
-                <div className="flex justify-between items-center mt-2">
-                  {event.time && (
-                    <p className="font-body text-muted text-xs mt-2">⏰ {event.time}</p>
-                  )}
-                  {event.payment && (
-                    <p className="font-body text-muted text-xs "><Link href={event.payment} >Pay here</Link></p>
-                  )}
-                </div>
-              </div>
+              <EventCard key={i} event={event}></EventCard>
             ))}
           </div>
         )}

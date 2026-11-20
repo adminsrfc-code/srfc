@@ -33,30 +33,33 @@ export default async function EventsPage() {
     (expires === "" || Date.now() <= new Date(`${expires}T23:59:59Z`).getTime());
 
   return (
-    <div className="pt-16 lg:pt-20 px-4 sm:px-6 lg:px-8 flex justify-center">
-      <div className="w-full max-w-4xl mb-5 grid lg:grid-cols-3 lg:grid-cols-2  gap-12 lg:gap-16 items-start">
+    <>
+      {isBannerActive ? (
+        <div className="pt-16 lg:pt-20 px-4 sm:px-6 lg:px-8 flex justify-center">
+          <div className="w-full max-w-4xl mb-5 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            {/* Left Column: Events Section */}
+            <div className="w-full">
+              <EventsClient socialEvents={socialEvents} bookingLink={settings.booking} />
+            </div>
 
-        {/* Left Column: Events Section */}
-        <div className="w-full grid-span-2 ">
-          <EventsClient socialEvents={socialEvents} bookingLink={settings.booking} />
-
-        </div>
-
-
-
-        {/* Right Column: Banner Image */}
-        {isBannerActive && (
-          <div className="w-full lg:mt-10 flex justify-center">
-            <img
-              src={imageURL}
-              alt="Club announcement"
-              className="w-full h-auto object-cover rounded-2xl overflow-hidden shadow-lg border border-border"
-              loading="lazy"
-            />
+            {/* Right Column: Banner Image */}
+            <div className="w-full lg:mt-10 flex justify-center">
+              <img
+                src={imageURL}
+                alt="Club announcement"
+                className="w-full h-auto object-cover rounded-2xl overflow-hidden shadow-lg border border-border"
+                loading="lazy"
+              />
+            </div>
           </div>
-        )}
-
-      </div>
-    </div>
-  );
-}
+        </div>
+      ) : (
+        <div className="pt-16 lg:pt-20 px-4 sm:px-6 lg:px-8 flex justify-center">
+          <div className="w-full max-w-4xl mb-5">
+            <EventsClient socialEvents={socialEvents} bookingLink={settings.booking} />
+          </div>
+        </div>
+      )}
+    </>
+  )
+};
