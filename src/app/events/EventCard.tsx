@@ -46,7 +46,7 @@ export function EventCard({ event }: EventCardProps) {
                 <div className="flex items-center gap-4">
                     {event.payment && (
                         <p className="font-body text-muted text-xs">
-                            <Link href={event.payment} className="underline hover:text-slate">
+                            <Link target="_blank" href={event.payment} className="underline hover:text-slate">
                                 Pay here
                             </Link>
                         </p>
