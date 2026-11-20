@@ -125,62 +125,101 @@ export function SquadSelector({ sheetTeams = [] }: SquadSelectorProps) {
 
   if (!active) return null;
 
+  // Stable IDs for tab/panel ARIA association
+  const tabId = (cat: string) => `squad-tab-${cat.replace(/[^a-z0-9]/gi, "-").toLowerCase()}`;
+  const panelId = (cat: string) => `squad-panel-${cat.replace(/[^a-z0-9]/gi, "-").toLowerCase()}`;
+
   return (
     <div className="max-w-4xl mx-auto">
-      {/* Category tabs */}
-      <div className="flex flex-wrap gap-2 justify-center mb-8">
-        {squads.map((squad) => (
-          <button
-            key={squad.category}
-            onClick={() => setActiveCategory(squad.category)}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-body font-semibold text-sm transition-all duration-200 ${activeCategory === squad.category
-              ? "bg-maroon text-white shadow-lg shadow-maroon/30"
-              : "bg-white text-slate border border-border hover:border-maroon/30 hover:text-maroon"
+      {/* Category tabs — ARIA tablist pattern */}
+      <div
+        role="tablist"
+        aria-label="Squad categories"
+        className="flex flex-wrap gap-2 justify-center mb-8"
+      >
+        {squads.map((squad) => {
+          const isSelected = activeCategory === squad.category;
+          return (
+            <button
+              key={squad.category}
+              type="button"
+              role="tab"
+              id={tabId(squad.category)}
+              aria-selected={isSelected}
+              aria-controls={panelId(squad.category)}
+              onClick={() => setActiveCategory(squad.category)}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-body font-semibold text-sm transition-all duration-200 relative ${
+                isSelected
+                  ? "bg-maroon text-white shadow-lg shadow-maroon/30"
+                  : "bg-white text-slate border border-border hover:border-maroon/30 hover:text-maroon"
               }`}
-          >
-            <span>{squad.emoji}</span>
-            {squad.category}
-          </button>
-        ))}
+            >
+              <span aria-hidden="true">{squad.emoji}</span>
+              {squad.category}
+              {/* Underline indicator for selected tab — not colour-only (WCAG 1.4.1) */}
+              {isSelected && (
+                <span
+                  aria-hidden="true"
+                  className="absolute bottom-0 left-3 right-3 h-0.5 bg-gold rounded-full"
+                />
+              )}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Content */}
-      <div className="bg-white border border-border rounded-2xl overflow-hidden shadow-sm">
-        <div className="bg-maroon px-6 py-5">
-          <h3 className="font-display font-bold text-2xl text-white">{active.category}</h3>
-          <p className="font-body text-white/70 text-sm mt-1">{active.description}</p>
-        </div>
-
-        <div className="divide-y divide-border">
-          {active.teams.map((team, idx) => (
-            <div key={`${active.category}-${team.name}-${idx}`} className="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div>
-                <span className="font-display font-bold text-lg text-slate block">{team.name}</span>
-                <span className="font-body text-muted text-sm">{team.format}</span>
+      {/* Tab panels — only the active panel is visible */}
+      {squads.map((squad) => {
+        const isActive = activeCategory === squad.category;
+        return (
+          <div
+            key={squad.category}
+            id={panelId(squad.category)}
+            role="tabpanel"
+            aria-labelledby={tabId(squad.category)}
+            hidden={!isActive}
+            tabIndex={0}
+          >
+            {/* Content */}
+            <div className="bg-white border border-border rounded-2xl overflow-hidden shadow-sm">
+              <div className="bg-maroon px-6 py-5">
+                <h3 className="font-display font-bold text-2xl text-white">{squad.category}</h3>
+                <p className="font-body text-white/70 text-sm mt-1">{squad.description}</p>
               </div>
-              <div className="flex items-center gap-2 flex-shrink-0">
-                <span className="bg-cream border border-border rounded-lg px-3 py-2 font-body text-sm text-slate">
-                  <span className="font-semibold">{team.day}</span>
-                  <br />
-                  <span className="text-muted text-xs">{team.time}</span>
-                </span>
+
+              <div className="divide-y divide-border">
+                {squad.teams.map((team, idx) => (
+                  <div key={`${squad.category}-${team.name}-${idx}`} className="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <span className="font-display font-bold text-lg text-slate block">{team.name}</span>
+                      <span className="font-body text-muted text-sm">{team.format}</span>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <span className="bg-cream border border-border rounded-lg px-3 py-2 font-body text-sm text-slate">
+                        <span className="font-semibold">{team.day}</span>
+                        <br />
+                        <span className="text-muted text-xs">{team.time}</span>
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="px-6 py-4 bg-cream border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
+                <p className="font-body text-muted text-sm">
+                  🎉 First session is free — no commitment required
+                </p>
+                <a
+                  href="/contacts"
+                  className="inline-flex items-center gap-2 bg-maroon text-white font-body font-semibold text-sm px-5 py-2.5 rounded-lg hover:bg-maroon-deep transition-colors"
+                >
+                  Contact the coach →
+                </a>
               </div>
             </div>
-          ))}
-        </div>
-
-        <div className="px-6 py-4 bg-cream border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="font-body text-muted text-sm">
-            🎉 First session is free — no commitment required
-          </p>
-          <a
-            href="/contacts"
-            className="inline-flex items-center gap-2 bg-maroon text-white font-body font-semibold text-sm px-5 py-2.5 rounded-lg hover:bg-maroon-deep transition-colors"
-          >
-            Contact the coach →
-          </a>
-        </div>
-      </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

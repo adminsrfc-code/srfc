@@ -50,11 +50,22 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        {/* Prevent flash of un-themed browser UI on systems with dark-mode preference */}
+        <meta name="color-scheme" content="light" />
+      </head>
       <body className="min-h-screen flex flex-col bg-cream">
+        {/* Skip link — allows keyboard users to bypass repeated navigation */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-maroon focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:font-body focus:font-semibold focus:text-sm"
+        >
+          Skip to main content
+        </a>
         {/* Pitch status bar — top of every page, updated from Google Sheets */}
         <PitchStatusBanner status={pitchStatus} message={pitchMessage} />
         <Nav membershipUrl={membershipUrl} />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">{children}</main>
         <Footer membershipUrl={membershipUrl} />
       </body>
     </html>

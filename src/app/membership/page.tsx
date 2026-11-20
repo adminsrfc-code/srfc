@@ -49,13 +49,13 @@ export default async function MembershipPage() {
     const data = await getMembershipData(subData);
 
     return (
-        <main className="min-h-screen bg-cream/30 py-12">
+        <div className="min-h-screen bg-cream/30 py-12">
             <div className="text-center mb-6">
                 <h1 className="font-display font-bold text-3xl text-slate">Membership Subscriptions</h1>
                 <p className="text-muted text-sm mt-1">Online Registration & Guide — {data.season} Season</p>
             </div>
 
             <MembershipStepper season={data.season} steps={data.steps} />
-        </main>
+        </div>
     );
 }

@@ -26,6 +26,7 @@ export function MembershipStepper({ season, steps }: MembershipStepperProps) {
 
     const totalSteps = steps.length;
     const activeStep = steps[currentStep];
+    const progressPct = Math.round(((currentStep + 1) / totalSteps) * 100);
 
     const handleNext = () => {
         if (currentStep < totalSteps - 1) {
@@ -52,36 +53,45 @@ export function MembershipStepper({ season, steps }: MembershipStepperProps) {
                         Season {season} — Step {currentStep + 1} of {totalSteps}
                     </span>
                     <span className="text-sm text-muted">
-                        {Math.round(((currentStep + 1) / totalSteps) * 100)}% Completed
+                        {progressPct}% Completed
                     </span>
                 </div>
 
-                {/* Progress Bar */}
-                <div className="w-full bg-border h-2 rounded-full overflow-hidden">
-                    <div
-                        className="bg-maroon h-full transition-all duration-300 ease-in-out"
-                        style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
-                    />
-                </div>
+                {/* Native <progress> element — screen readers announce value automatically */}
+                <progress
+                    value={currentStep + 1}
+                    max={totalSteps}
+                    aria-label={`Step ${currentStep + 1} of ${totalSteps}: ${activeStep.title}`}
+                    className="w-full h-2 rounded-full progress-maroon"
+                />
 
                 {/* Step Navigation Pills */}
-                <div className="flex gap-2 overflow-x-auto mt-4 pb-2">
-                    {steps.map((step, index) => (
-                        <button
-                            key={step.title}
-                            type="button"
-                            onClick={() => {
-                                setCurrentStep(index);
-                                window.scrollTo({ top: 0, behavior: "smooth" });
-                            }}
-                            className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${currentStep === index
-                                ? "bg-maroon text-white"
-                                : "bg-cream text-slate border border-border hover:border-maroon/40"
-                                }`}
-                        >
-                            {index + 1}. {step.title}
-                        </button>
-                    ))}
+                <div
+                    className="flex gap-2 overflow-x-auto mt-4 pb-2"
+                    role="list"
+                    aria-label="Membership steps"
+                >
+                    {steps.map((step, index) => {
+                        const isActive = currentStep === index;
+                        return (
+                            <button
+                                key={step.title}
+                                type="button"
+                                role="listitem"
+                                aria-current={isActive ? "step" : undefined}
+                                onClick={() => {
+                                    setCurrentStep(index);
+                                    window.scrollTo({ top: 0, behavior: "smooth" });
+                                }}
+                                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${isActive
+                                    ? "bg-maroon text-white"
+                                    : "bg-cream text-slate border border-border hover:border-maroon/40"
+                                    }`}
+                            >
+                                {index + 1}. {step.title}
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
 
