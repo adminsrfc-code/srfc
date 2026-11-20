@@ -169,6 +169,7 @@ export interface SheetContact {
   name: string;
   email?: string;
   phone?: string;
+  photo?: string;
 }
 
 /**

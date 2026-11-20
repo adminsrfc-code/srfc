@@ -13,7 +13,6 @@ export const revalidate = 300;
 export default async function ContactsPage() {
   // Contacts come from Google Sheets contacts tab
   const contactGroups = await getSheetContacts();
-
   return (
     <div className="pt-16 lg:pt-20">
       {/* Header */}
@@ -52,29 +51,42 @@ export default async function ContactsPage() {
                     {group.category.toUpperCase()}
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {group.contacts.map((contact) => (
+                    {group.contacts.map((contact, ci) => (
                       <div
-                        key={contact.role}
-                        className="bg-white border border-border rounded-2xl p-5 hover:border-maroon/30 hover:shadow-sm transition-all"
+                        key={contact.role + ci}
+                        className="flex items-center justify-between gap-4 bg-white border border-border rounded-2xl p-5 hover:border-maroon/30 hover:shadow-sm transition-all"
                       >
-                        <span className="font-body text-maroon text-xs font-semibold tracking-wide uppercase block mb-1">
-                          {contact.role}
-                        </span>
-                        <span className="font-display font-bold text-xl text-slate block mb-3">
-                          {contact.name}
-                        </span>
-                        <div className="space-y-1.5">
-                          {contact.email && <ObfuscatedEmail email={contact.email} />}
-                          {contact.phone && (
-                            <a
-                              href={`tel:${contact.phone.replace(/\s/g, "")}`}
-                              className="flex items-center gap-2 font-body text-sm text-muted hover:text-slate transition-colors"
-                            >
-                              <span>📞</span>
-                              <span>{contact.phone}</span>
-                            </a>
-                          )}
+                        {/* Left: Contact details */}
+                        <div className="min-w-0 flex-1">
+                          <span className="font-body text-maroon text-xs font-semibold tracking-wide uppercase block mb-1">
+                            {contact.role}
+                          </span>
+                          <span className="font-display font-bold text-xl text-slate block mb-3">
+                            {contact.name}
+                          </span>
+                          <div className="space-y-1.5">
+                            {contact.email && <ObfuscatedEmail email={contact.email} />}
+                            {contact.phone && (
+                              <a
+                                href={`tel:${contact.phone.replace(/\s/g, "")}`}
+                                className="flex items-center gap-2 font-body text-sm text-muted hover:text-slate transition-colors"
+                              >
+                                <span>📞</span>
+                                <span>{contact.phone}</span>
+                              </a>
+                            )}
+                          </div>
                         </div>
+
+                        {/* Right: Optional photo/avatar */}
+                        {contact.photo && (
+                          <img
+                            src={contact.photo}
+                            alt={contact.name}
+                            className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover shrink-0 border border-border"
+                            loading="lazy"
+                          />
+                        )}
                       </div>
                     ))}
                   </div>

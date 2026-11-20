@@ -12,6 +12,7 @@ export interface Contact {
   name: string;
   email?: string;
   phone?: string;
+  photo?: string;
 }
 
 export interface ContactGroup {
@@ -34,6 +35,7 @@ export async function getSheetContacts(): Promise<ContactGroup[]> {
       name: row.name ?? "",
       email: row.email?.trim() || undefined,
       phone: row.phone?.trim() || undefined,
+      photo: row.photo?.trim() || undefined,
     });
   }
 
