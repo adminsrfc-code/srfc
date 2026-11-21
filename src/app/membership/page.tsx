@@ -1,4 +1,5 @@
 import { MembershipStepper, StepData } from "@/components/MembershipStepper";
+import { MobileMembershipGuide } from "@/components/MobileMembershipGuide";
 import { getSheetSubs, SheetSubs } from "@/lib/sheets";
 
 // This can be fetched async from a database or sheet loader function
@@ -43,19 +44,23 @@ async function getMembershipData(subData: SheetSubs) {
 }
 
 export default async function MembershipPage() {
-
     const subData = await getSheetSubs();
-
     const data = await getMembershipData(subData);
 
     return (
         <div className="min-h-screen bg-cream/30 py-12">
-            <div className="text-center mb-6">
+            <div className="text-center mb-6 px-4">
                 <h1 className="font-display font-bold text-3xl text-slate">Membership Subscriptions</h1>
-                <p className="text-muted text-sm mt-1">Online Registration & Guide — {data.season} Season</p>
+                <p className="text-muted text-sm mt-1">Online Registration &amp; Guide — {data.season} Season</p>
             </div>
 
-            <MembershipStepper season={data.season} steps={data.steps} />
+            <div className="md:hidden">
+                <MobileMembershipGuide season={data.season} steps={data.steps} />
+            </div>
+
+            <div className="hidden md:block">
+                <MembershipStepper season={data.season} steps={data.steps} />
+            </div>
         </div>
     );
 }

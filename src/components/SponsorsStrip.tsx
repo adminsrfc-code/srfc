@@ -1,37 +1,72 @@
-export function SponsorsStrip() {
-  const sponsors = [
-    { name: "Gascoines", url: "#" },
-    { name: "Miller Homes", url: "#" },
-    { name: "Local Business Partner", url: "#" },
-    { name: "Your Logo Here", url: "/contacts" },
-  ];
+import { SheetSponsor } from "@/lib/sheets";
+
+interface SponsorStripProps {
+  sponsors: SheetSponsor[]
+}
+
+export function SponsorsStrip({ sponsors }: SponsorStripProps) {
 
   return (
-    <section className="bg-cream border-t border-border py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p className="text-center font-body text-muted text-xs font-semibold tracking-widest uppercase mb-6">
-          Our Club Partners & Sponsors
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-8 lg:gap-14">
-          {sponsors.map((sponsor) => (
+    <section >
+      {sponsors.length > 0 && (
+        <div className="bg-maroon-deep text-cream border-b border-cream/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-9 flex items-center justify-between gap-4">
+            {/* Subtle Label (Hidden on very small screens) */}
+            <span className="hidden sm:inline-block font-body text-[10px] font-semibold tracking-widest uppercase text-cream/70 shrink-0">
+              Club Partners
+            </span>
+
+            {/* Compact Logo Strip (Horizontally scrollable on mobile) */}
+            <div className="flex items-center gap-5 sm:gap-7 overflow-x-auto no-scrollbar py-1">
+              {sponsors.map((sponsor) =>
+                sponsor.logo ? (
+                  <a
+                    key={sponsor.name}
+                    href={sponsor.url ?? "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={sponsor.name}
+                    className="shrink-0 opacity-75 hover:opacity-100 transition-opacity flex items-center"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    {sponsor.logowhite ? (
+                      <img
+                        src={sponsor.logo}
+                        alt={sponsor.name}
+                        className="h-5 w-auto object-contain"
+                      />
+                    ) : (
+                      <img
+                        src={sponsor.logo}
+                        alt={sponsor.name}
+                        className="h-5 w-auto object-contain bg-cream/95 px-1.5 py-0.5 rounded-sm"
+                      />
+                    )}
+                  </a>
+                ) : (
+                  <a
+                    key={sponsor.name}
+                    href={sponsor.url ?? "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="shrink-0 font-display font-bold text-xs text-cream/70 hover:text-cream transition-colors uppercase tracking-wider"
+                  >
+                    {sponsor.name}
+                  </a>
+                )
+              )}
+            </div>
+
+            {/* Partner CTA */}
             <a
-              key={sponsor.name}
-              href={sponsor.url}
-              className="font-display font-bold text-lg text-border hover:text-muted transition-colors duration-200 tracking-wide uppercase"
+              href="/contacts"
+              className="hidden md:inline-block font-body text-[10px] font-medium tracking-wider uppercase text-cream/70 hover:text-cream transition-colors shrink-0"
             >
-              {sponsor.name}
+              Partner with us →
             </a>
-          ))}
+          </div>
         </div>
-        <p className="text-center mt-6">
-          <a
-            href="/contacts"
-            className="font-body text-xs text-maroon/60 hover:text-maroon transition-colors"
-          >
-            Become a club partner →
-          </a>
-        </p>
-      </div>
+      )}
     </section>
   );
 }

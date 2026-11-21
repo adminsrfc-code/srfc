@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import { SponsorsStrip } from "./SponsorsStrip";
+import { SheetSponsor } from "@/lib/sheets";
 
 const navLinks = [
   { label: "Fixtures ", href: "/fixtures" },
@@ -41,11 +43,14 @@ const socialLinks = [
 type FooterProps = {
   /** Membership sign-up URL — passed from layout (sourced from Google Sheets settings). */
   membershipUrl: string;
+  sponsors: SheetSponsor[];
+
 };
 
-export function Footer({ membershipUrl }: FooterProps) {
+export function Footer({ membershipUrl, sponsors }: FooterProps) {
   return (
     <footer className="bg-maroon-deep text-white">
+      <SponsorsStrip sponsors={sponsors}></SponsorsStrip>
       {/* Main footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16">

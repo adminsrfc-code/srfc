@@ -94,28 +94,6 @@ export default async function ContactsPage() {
               ))
             )}
 
-            {/* Visiting teams info */}
-            <div className="bg-cream border border-border rounded-2xl p-6">
-              <h2 className="font-display font-bold text-2xl text-slate mb-4">VISITING TEAMS & OFFICIALS</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 font-body text-sm text-muted leading-relaxed">
-                <div>
-                  <h3 className="font-semibold text-slate mb-2">Getting Here</h3>
-                  <p>Park Lane, Southwell, NG25 0QN. From the A612, follow signs towards the Minster. Park Lane is on your right.</p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate mb-2">Parking</h3>
-                  <p>On-site parking at the ground. Overspill at Southwell Leisure Centre (5 min walk). Please respect local residents.</p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate mb-2">Changing Rooms</h3>
-                  <p>Full facilities for both teams and officials. Hot showers. Contact the club in advance to confirm allocation.</p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate mb-2">After the Match</h3>
-                  <p>Clubhouse bar open after all home matches. Hot food on selected matchdays. Visitors always welcome. 🍺</p>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Sidebar */}
@@ -165,6 +143,28 @@ export default async function ContactsPage() {
                 className="font-body text-xs text-maroon hover:underline">
                 RFU Safeguarding Policy ↗
               </a>
+            </div>
+            {/* Visiting teams info */}
+            <div className="bg-cream border border-border rounded-2xl p-6">
+              <h2 className="font-display font-bold text-2xl text-slate mb-4">VISITING TEAMS & OFFICIALS</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 font-body text-sm text-muted leading-relaxed">
+                <div>
+                  <h3 className="font-semibold text-slate mb-2">Getting Here</h3>
+                  <p>Park Lane, Southwell, NG25 0QN. From the A612, follow signs towards the Minster. Park Lane is on your right.</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-slate mb-2">Parking</h3>
+                  <p>On-site parking at the ground. Overspill at Southwell Leisure Centre (5 min walk). Please respect local residents.</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-slate mb-2">Changing Rooms</h3>
+                  <p>Full facilities for both teams and officials. Hot showers. Contact the club in advance to confirm allocation.</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-slate mb-2">After the Match</h3>
+                  <p>Clubhouse bar open after all home matches. Hot food on selected matchdays. Visitors always welcome. 🍺</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

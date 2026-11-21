@@ -49,8 +49,8 @@ errors).
   England Rugby team links added for each squad**
 - `PitchStatusBanner.tsx` — top-of-page pitch status (OPEN / INSPECTION /
   CLOSED)
-- `HeroBanner.tsx` — time-bounded promotional image (replaces stats grid in
-  Club Intro when configured)
+- `HeroBanner.tsx` — time-bounded promotional image (replaces stats grid in Club
+  Intro when configured)
 - `MembershipStepper.tsx` — **NEW** multi-step membership/subscription wizard
   with progress bar, navigation pills, rates table and bank details box
 - `SponsorsStrip.tsx` — **NEW** static fallback sponsors strip (shown on
@@ -66,7 +66,7 @@ errors).
     `fixtures`, each with hardcoded GID defaults so no env vars needed in prod
   - `getSetting()` / `getSheetSettings()` — documented `membership_url` and
     `booking` settings keys; `membership_url` now plumbed through layout → Nav
-    + Footer dynamically
+    - Footer dynamically
   - **Hardcoded default Sheet ID** present as fallback — site reads live club
     data without any env vars being set
 - `rfu.ts` — RFU cluster API fixture fetcher; club ID 1523 comment + stability
@@ -92,14 +92,14 @@ errors).
 
 ### Session 4 work completed (2026-11-13 → 2026-11-15)
 
-| Item                                                     | Status  |
-| -------------------------------------------------------- | ------- |
-| `SquadSelector.tsx`: Direct England Rugby team links     | ✅ Done |
-| `sheets.ts`: Real sheet ID wired in as default fallback  | ✅ Done |
-| `/membership` route + `MembershipStepper.tsx` component  | ✅ Done |
-| `sheets.ts`: `SheetSubs` type + `getSheetSubs()`         | ✅ Done |
-| `HeroSection.tsx`: Better banner integration             | ✅ Done |
-| `/history`: Clubhouse photo added                        | ✅ Done |
+| Item                                                    | Status  |
+| ------------------------------------------------------- | ------- |
+| `SquadSelector.tsx`: Direct England Rugby team links    | ✅ Done |
+| `sheets.ts`: Real sheet ID wired in as default fallback | ✅ Done |
+| `/membership` route + `MembershipStepper.tsx` component | ✅ Done |
+| `sheets.ts`: `SheetSubs` type + `getSheetSubs()`        | ✅ Done |
+| `HeroSection.tsx`: Better banner integration            | ✅ Done |
+| `/history`: Clubhouse photo added                       | ✅ Done |
 
 ### Session 5 work completed (2026-11-17 → 2026-11-20)
 
@@ -154,12 +154,12 @@ the URL\
 
 ### Settings Tab — Supported Keys
 
-| Key              | Purpose                                            | Example value              |
-| ---------------- | -------------------------------------------------- | -------------------------- |
-| `pitch_status`   | OPEN / INSPECTION / CLOSED banner at top of site   | `OPEN`                     |
-| `pitch_message`  | Optional message shown alongside pitch status      | `Main pitch waterlogged`   |
-| `membership_url` | Overrides membership join link in Nav / Footer     | Full URL to join/subs page |
-| `booking`        | Booking/payment link shown on `/events` page       | Full URL to booking form   |
+| Key                | Purpose                                          | Example value              |
+| ------------------ | ------------------------------------------------ | -------------------------- |
+| `pitch_status`     | OPEN / INSPECTION / CLOSED banner at top of site | `OPEN`                     |
+| `pitch_message`    | Optional message shown alongside pitch status    | `Main pitch waterlogged`   |
+| `membership_url`   | Overrides membership join link in Nav / Footer   | Full URL to join/subs page |
+| `booking`          | Booking/payment link shown on `/events` page     | Full URL to booking form   |
 | `banner_image_url` | Time-bounded promo banner image URL              | Google Drive `uc?id=…` URL |
 | `banner_expires`   | Auto-hide date for banner                        | `YYYY-MM-DD`               |
 
@@ -186,9 +186,9 @@ text-only cards.
   fix when updating subscription rates.
 - `sheets.ts` has a spelling inconsistency: tab key is `subscritions` (matches
   the actual sheet tab name — fix both together if renaming the tab).
-- `FixtureClient.tsx`: Teams with `null` RFU team IDs (U6–U13) generate links
-  to `/undefined` on England Rugby — these links are shown only in the empty
-  state fallback; low priority.
+- `FixtureClient.tsx`: Teams with `null` RFU team IDs (U6–U13) generate links to
+  `/undefined` on England Rugby — these links are shown only in the empty state
+  fallback; low priority.
 
 ---
 
@@ -358,6 +358,8 @@ To put up a time-bounded banner (e.g. bonfire night photo):
 
 Per `spec.md`, Phase 2 items not started:
 
+- **SPOND ical sync** - write a script to harvest google calander and populate
+  google sheets for the fixtures
 - **News/blog** — route `/news` - using https://comark.dev
 - **Player profiles** — deferred
 - **Online membership / joining form** — deferred

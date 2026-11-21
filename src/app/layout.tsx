@@ -3,7 +3,7 @@ import "./globals.css";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PitchStatusBanner } from "@/components/PitchStatusBanner";
-import { getSheetSettings } from "@/lib/sheets";
+import { getSheetSettings, getSheetSponsors } from "@/lib/sheets";
 
 export const revalidate = 300; // 5 min — matches sheet cache
 
@@ -41,7 +41,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   // Fetch pitch status from Google Sheets settings tab
-  const settings = await getSheetSettings();
+  const [sponsors, settings] = await Promise.all([
+    getSheetSponsors(),
+    getSheetSettings(),
+  ]);
+
   const pitchStatus = settings["pitch_status"] ?? "OPEN";
   const pitchMessage = settings["pitch_message"] ?? "";
   const membershipUrl =
@@ -66,7 +70,7 @@ export default async function RootLayout({
         <PitchStatusBanner status={pitchStatus} message={pitchMessage} />
         <Nav membershipUrl={membershipUrl} />
         <main id="main-content" className="flex-1">{children}</main>
-        <Footer membershipUrl={membershipUrl} />
+        <Footer membershipUrl={membershipUrl} sponsors={sponsors} />
       </body>
     </html>
   );

@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useId } from "react";
 import { usePathname } from "next/navigation";
+import { SponsorsStrip } from "./SponsorsStrip";
+import { SheetSponsor } from "@/lib/sheets";
 
 const links = [
   { label: "Fixtures", href: "/fixtures" },
@@ -24,9 +26,10 @@ const externalLinks = [
 type NavProps = {
   /** Membership sign-up URL — passed from layout (sourced from Google Sheets settings). */
   membershipUrl: string;
+  sponsors: SheetSponsor[];
 };
 
-export function Nav({ membershipUrl }: NavProps) {
+export function Nav({ membershipUrl, sponsors }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const menuId = useId();
@@ -110,13 +113,12 @@ export function Nav({ membershipUrl }: NavProps) {
           <div className="flex items-center gap-3">
             <a
               href={membershipUrl}
-              target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:inline-flex items-center gap-2 bg-maroon-vibrant hover:bg-red-700 text-white font-body font-semibold text-sm px-4 py-2 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-maroon-vibrant/40"
             >
               🏉 Join Us
             </a>
-            {/* Hamburger — uses Popover API for native Escape/light-dismiss */}
+            {/* Hamburger — uses Popover API for native Es  cape/light-dismiss */}
             <button
               type="button"
               // popoverTarget wires this button to the mobile menu declaratively

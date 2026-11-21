@@ -4,7 +4,6 @@ import { getSheetEvents, getSheetSponsors, getSheetSettings, getSheetTeams } fro
 import { FixtureCard } from "@/components/FixtureCard";
 import { HeroSection } from "@/components/HeroSection";
 import { SquadSelector } from "@/components/SquadSelector";
-import { HeroBanner } from "@/components/HeroBanner";
 import { EventCard } from "./events/EventCard";
 
 export const revalidate = 300; // 5 minutes — synced with Google Sheets cache
