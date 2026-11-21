@@ -26,10 +26,9 @@ const externalLinks = [
 type NavProps = {
   /** Membership sign-up URL — passed from layout (sourced from Google Sheets settings). */
   membershipUrl: string;
-  sponsors: SheetSponsor[];
 };
 
-export function Nav({ membershipUrl, sponsors }: NavProps) {
+export function Nav({ membershipUrl }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const menuId = useId();
