@@ -12,6 +12,14 @@ export const metadata: Metadata = {
 
 export const revalidate = 300;
 
+
+function getLocalDateString(now = new Date()): string {
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 export default async function EventsPage() {
   // RFU API owns ALL fixture data — no duplicate entry in sheets
   // Google Sheets only provides social/club events (bonfire night, Christmas party, etc.)
@@ -20,11 +28,12 @@ export default async function EventsPage() {
     getSheetSettings()
   ]);
 
-  // Only non-cancelled events from the sheet — social, training, other
-  // (fixtures are already excluded upstream in getSheetEvents)
+  const todayStr = getLocalDateString();
+
   const socialEvents = sheetEvents.filter(
-    (e) => e.cancelled?.toUpperCase() !== "TRUE"
+    (e) => e.date >= todayStr
   );
+
   // Time-bounded banner from Settings sheet
   const imageURL = settings["banner_image_url"] ?? "";
   const expires = settings["banner_expires"] ?? "";

@@ -4,8 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useId } from "react";
 import { usePathname } from "next/navigation";
-import { SponsorsStrip } from "./SponsorsStrip";
-import { SheetSponsor } from "@/lib/sheets";
 
 const links = [
   { label: "Fixtures", href: "/fixtures" },
