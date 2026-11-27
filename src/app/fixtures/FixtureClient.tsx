@@ -11,17 +11,24 @@ interface FixtureClientProps {
   fixtures: Fixture[];
 }
 
+function isUpcoming(f: Fixture) {
+  if (f.status != "upcoming") {
+    return false;
+  }
+  return Date.now() <= new Date(`${f.date}T23:59:59Z`).getTime();
+}
+
 export function FixtureClient({ fixtures }: FixtureClientProps) {
   const [filter, setFilter] = useState<Filter>("upcoming");
 
   const filtered = fixtures.filter((f) => {
-    if (filter === "upcoming") return f.status === "upcoming";
+    if (filter === "upcoming") return isUpcoming(f);
     if (filter === "results") return f.status === "result";
     return true;
   });
 
   const noFixtures = filtered.length === 0;
-  const noUpcoming = fixtures.filter((f) => f.status === "upcoming").length === 0;
+  const noUpcoming = fixtures.filter((f) => isUpcoming(f)).length === 0;
 
   const rfuURL = "https://www.englandrugby.com/fixtures-and-results/search-results?team=";
   const southwellTeams = [
