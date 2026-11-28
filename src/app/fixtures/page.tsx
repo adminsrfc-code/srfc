@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
-import { Fixture, getSouthwellFixtures } from "@/lib/rfu";
+import { getSouthwellFixtures } from "@/lib/rfu";
 import { FixtureClient } from "./FixtureClient";
-import { getSetting, getSheetFixtures, getSheetSubs } from "@/lib/sheets";
+import { getSheetSubs } from "@/lib/sheets";
 
 export const metadata: Metadata = {
-    title: "Events",
+    title: "Fixtures",
     description:
-        "Southwell RFC fixtures, results and upcoming events. Counties 1 Midlands East (North) and all team schedules.",
+        "Southwell RFC fixtures and results. Counties 1 Midlands East (North) and all team schedules.",
 };
 
 export const revalidate = 300;
 
 
 
-export default async function EventsPage() {
+export default async function FixturesPage() {
     // RFU API owns ALL fixture data — no duplicate entry in sheets
     // Google Sheets only provides social/club events (bonfire night, Christmas party, etc.)
     const [fixtures, sheetSubs] = await Promise.all([

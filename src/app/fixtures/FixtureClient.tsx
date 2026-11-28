@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import type { Fixture } from "@/lib/rfu";
-import type { SheetEvent } from "@/lib/sheets";
 import { FixtureCard } from "@/components/FixtureCard";
 
 type Filter = "all" | "upcoming" | "results";

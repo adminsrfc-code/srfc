@@ -32,12 +32,18 @@ export function SponsorsStrip({ sponsors }: SponsorStripProps) {
                       <img
                         src={sponsor.logo}
                         alt={sponsor.name}
+                        width={160}
+                        height={20}
+                        loading="lazy"
                         className="h-4 sm:h-5 w-auto object-contain"
                       />
                     ) : (
                       <img
                         src={sponsor.logo}
                         alt={sponsor.name}
+                        width={160}
+                        height={20}
+                        loading="lazy"
                         className="h-4 sm:h-5 w-auto object-contain bg-cream/95 px-1.5 py-0.5 rounded-sm"
                       />
                     )}

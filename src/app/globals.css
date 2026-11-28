@@ -25,6 +25,9 @@
 /* Base styles */
 html {
   scroll-behavior: smooth;
+  /* Tell the browser this site is light-only — keeps scrollbars, selects,
+     and other native UI in light mode even on dark-preference systems */
+  color-scheme: light;
 }
 
 body {
@@ -51,3 +54,36 @@ img {
   outline: 2px solid var(--color-maroon);
   outline-offset: 2px;
 }
+
+/* ─── Native <progress> element styling (used in MembershipStepper) ─────────
+   MWG progress guide: use appearance:none, then target vendor pseudo-elements
+   separately — never group -webkit- and -moz- rules together.              */
+progress.progress-maroon {
+  appearance: none;
+  border: 0 solid;
+  border-radius: 9999px;
+  overflow: clip;
+  display: block;
+  background-color: var(--color-border);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.08);
+}
+
+/* WebKit / Blink: let the progress element background show through */
+progress.progress-maroon::-webkit-progress-bar {
+  background: transparent;
+}
+
+/* WebKit / Blink fill */
+progress.progress-maroon::-webkit-progress-value {
+  background-color: var(--color-maroon);
+  border-radius: 9999px;
+  transition: inline-size 0.3s ease-in-out;
+}
+
+/* Firefox fill */
+progress.progress-maroon::-moz-progress-bar {
+  background-color: var(--color-maroon);
+  border-radius: 9999px;
+  transition: inline-size 0.3s ease-in-out;
+}
+

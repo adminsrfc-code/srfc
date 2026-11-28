@@ -175,9 +175,9 @@ export default async function HomePage() {
                     className="opacity-60 hover:opacity-100 transition-opacity">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     {sponsor.logowhite ?
-                      <img src={sponsor.logo} alt={sponsor.name} className="h-10 object-contain bg-black p-3 rounded" />
+                      <img src={sponsor.logo} alt={sponsor.name} width={200} height={40} loading="lazy" className="h-10 object-contain bg-black p-3 rounded" />
                       :
-                      <img src={sponsor.logo} alt={sponsor.name} className="h-10 object-contain" />}
+                      <img src={sponsor.logo} alt={sponsor.name} width={200} height={40} loading="lazy" className="h-10 object-contain" />}
                   </a>
                 ) : (
                   <a key={sponsor.name} href={sponsor.url ?? "#"} target="_blank" rel="noopener noreferrer"

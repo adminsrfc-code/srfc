@@ -83,6 +83,8 @@ export default async function ContactsPage() {
                           <img
                             src={contact.photo}
                             alt={contact.name}
+                            width={96}
+                            height={96}
                             className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover shrink-0 border border-border"
                             loading="lazy"
                           />

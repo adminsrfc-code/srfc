@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { getSouthwellFixtures } from "@/lib/rfu";
 import { getSheetEvents, getSheetSettings } from "@/lib/sheets";
 import { EventsClient } from "./EventsClient";
-import { HeroBanner } from "@/components/HeroBanner";
 
 export const metadata: Metadata = {
   title: "Events",
@@ -56,6 +54,8 @@ export default async function EventsPage() {
               <img
                 src={imageURL}
                 alt="Club announcement"
+                width={800}
+                height={500}
                 className="w-full h-auto object-cover rounded-2xl overflow-hidden shadow-lg border border-border"
                 loading="lazy"
               />
